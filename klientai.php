@@ -43,8 +43,7 @@
         <?php require_once("priedai/menu.php"); ?>
     </div>
 
-    <!-- <form action="klientai.php" method="get">
-
+    <form action="klientai.php" method="get">
         <div class="form-group">
             <select class="form-control" name="rikiavimas_id">
                 <option value="DESC"> Nuo didžiausio iki mažiausio</option>
@@ -52,7 +51,8 @@
             </select>
             <button class="btn btn-primary" name="rikiuoti" type="submit">Rikiuoti</button>
         </div>
-    </form> -->
+    </form>
+
     <table class="table table-striped">
   <thead>
     <tr>
@@ -67,15 +67,16 @@
     </tr>
   </thead>
   <tbody>
+
 <?php
 
-// if(isset($_GET["rikiavimas_id"]) && !empty($_GET["rikiavimas_id"])) {
-//     $rikiavimas = $_GET["rikiavimas_id"];
-// } else {
-//     $rikiavimas = "DESC";
-// }
+if(isset($_GET["rikiavimas_id"]) && !empty($_GET["rikiavimas_id"])) {
+    $rikiavimas = $_GET["rikiavimas_id"];
+} else {
+    $rikiavimas = "DESC";
+}
 
-// $sql = "SELECT * FROM `klientai` ORDER BY `ID` DESC";
+$sql = "SELECT * FROM `klientai` ORDER BY `ID` $rikiavimas";
 
 
 // if(isset($_GET["search"]) && !empty($_GET["search"])) {
@@ -94,8 +95,6 @@ if(isset($_GET["trinti"])){
             $negerai = "Kazkas negerai";
             $classN = "danger";
 }
-
-$sql = "SELECT * FROM `klientai` WHERE 1";
 
 $rezultatas = $prisijungimas->query($sql);
 
@@ -116,8 +115,6 @@ while($klientai = mysqli_fetch_array($rezultatas)) {
        echo "</td>";
     echo "</tr>";
 }
-
-
 
 ?>
 

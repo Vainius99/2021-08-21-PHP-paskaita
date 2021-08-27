@@ -36,6 +36,19 @@
                 header("Location: index.php");
             }
         }    
+        
+        if(isset($_GET["trinti"])){
+            $id= $_GET["trinti"];
+            
+            $sql = ("DELETE FROM `imones` WHERE `ID` = $id;");
+                if (mysqli_query($prisijungimas, $sql)){
+            $message = "imone sekmingai istrinta";
+            $class = "success";
+                } else 
+                    $negerai = "Kazkas negerai";
+                    $classN = "danger";
+        }
+        
         ?>
     
     <div class="container">
@@ -66,13 +79,14 @@
   <tbody>
 <?php
 
-// if(isset($_GET["rikiavimas_id"]) && !empty($_GET["rikiavimas_id"])) {
-//     $rikiavimas = $_GET["rikiavimas_id"];
-// } else {
-//     $rikiavimas = "DESC";
-// }
 
-// $sql = "SELECT * FROM `klientai` ORDER BY `ID` $rikiavimas";
+    if(isset($_GET["rikiavimas_id"]) && !empty($_GET["rikiavimas_id"])) {
+        $rikiavimas = $_GET["rikiavimas_id"];
+    } else {
+        $rikiavimas = "DESC";
+    }
+
+$sql = "SELECT * FROM `klientai` ORDER BY `ID` $rikiavimas";
 
 
 // if(isset($_GET["search"]) && !empty($_GET["search"])) {
@@ -80,17 +94,17 @@
 //     $sql = "SELECT * FROM `klientai` WHERE `vardas` LIKE '%".$search."%' OR `pavarde` LIKE '%".$search."%' ORDER BY `ID` $rikiavimas";
 // }
 
-if(isset($_GET["trinti"])){
-    $id= $_GET["trinti"];
+// if(isset($_GET["trinti"])){
+//     $id= $_GET["trinti"];
     
-    $sql = ("DELETE FROM `imones` WHERE `ID` = $id;");
-        if (mysqli_query($prisijungimas, $sql)){
-    $message = "imone sekmingai istrinta";
-    $class = "success";
-        } else 
-            $negerai = "Kazkas negerai";
-            $classN = "danger";
-}
+//     $sql = ("DELETE FROM `imones` WHERE `ID` = $id;");
+//         if (mysqli_query($prisijungimas, $sql)){
+//     $message = "imone sekmingai istrinta";
+//     $class = "success";
+//         } else 
+//             $negerai = "Kazkas negerai";
+//             $classN = "danger";
+// }
 
 $sql = "SELECT * FROM `imones` WHERE 1";
 
