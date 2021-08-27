@@ -37,17 +37,17 @@
             }
         }    
         
-        if(isset($_GET["trinti"])){
-            $id= $_GET["trinti"];
+        // if(isset($_GET["trinti"])){
+        //     $id= $_GET["trinti"];
             
-            $sql = ("DELETE FROM `imones` WHERE `ID` = $id;");
-                if (mysqli_query($prisijungimas, $sql)){
-            $message = "imone sekmingai istrinta";
-            $class = "success";
-                } else 
-                    $negerai = "Kazkas negerai";
-                    $classN = "danger";
-        }
+        //     $sql = ("DELETE FROM `imones` WHERE `ID` = $id;");
+        //         if (mysqli_query($prisijungimas, $sql)){
+        //     $message = "imone sekmingai istrinta";
+        //     $class = "success";
+        //         } else 
+        //             $negerai = "Kazkas negerai";
+        //             $classN = "danger";
+        // }
         
         ?>
     
@@ -86,27 +86,13 @@
         $rikiavimas = "DESC";
     }
 
-$sql = "SELECT * FROM `klientai` ORDER BY `ID` $rikiavimas";
+$sql = "SELECT * FROM `imones` ORDER BY `ID` $rikiavimas";
 
 
 // if(isset($_GET["search"]) && !empty($_GET["search"])) {
 //     $search = $_GET["search"];
 //     $sql = "SELECT * FROM `klientai` WHERE `vardas` LIKE '%".$search."%' OR `pavarde` LIKE '%".$search."%' ORDER BY `ID` $rikiavimas";
 // }
-
-// if(isset($_GET["trinti"])){
-//     $id= $_GET["trinti"];
-    
-//     $sql = ("DELETE FROM `imones` WHERE `ID` = $id;");
-//         if (mysqli_query($prisijungimas, $sql)){
-//     $message = "imone sekmingai istrinta";
-//     $class = "success";
-//         } else 
-//             $negerai = "Kazkas negerai";
-//             $classN = "danger";
-// }
-
-$sql = "SELECT * FROM `imones` WHERE 1";
 
 $rezultatas = $prisijungimas->query($sql);
 
