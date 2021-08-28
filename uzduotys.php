@@ -1,7 +1,7 @@
-<!-- 1. Prie praeito šeštadienio užduoties prijungti Bootsrap 4 biblioteką.
-2. Papildyti duomenų bazę nuotraukoje nurodytomis lentelėmis: http://prntscr.com/1qcvjcd
-3. Papildyti projektą prisijungimu ir registracija. Tiek prisijungimas, tiek registracija turi būti vykdoma POST metodu.
-4. Lentelę "imones_tipas" užpildyti tokias duomenimis:
+<!-- 1. Prie praeito šeštadienio užduoties prijungti Bootsrap 4 biblioteką. +
+2. Papildyti duomenų bazę nuotraukoje nurodytomis lentelėmis: http://prntscr.com/1qcvjcd +
+3. Papildyti projektą prisijungimu ir registracija. Tiek prisijungimas, tiek registracija turi būti vykdoma POST metodu. +-
+4. Lentelę "imones_tipas" užpildyti tokias duomenimis: +
 
 ID pavadinimas aprasymas
 1  MB          Mažoji Bendrija
@@ -9,11 +9,11 @@ ID pavadinimas aprasymas
 3  AB           Akcinė bendrovė
 Galima užpildyti ir daugiau duomenų savo nuožiūra.
 
-5. Lentelėje "imones" pridedamos tikros arba netikros 10 įmonių. Stulpelis "tipas_ID" nurodo, koks yra įmonės tipas pagal lentelę "imones_tipas"
+5. Lentelėje "imones" pridedamos tikros arba netikros 10 įmonių. Stulpelis "tipas_ID" nurodo, koks yra įmonės tipas pagal lentelę "imones_tipas" +
 
-6. Lentelėje "klientai_teises" gali būti naudojami duomenys iš paskaitų. Lentelę taip pat papildyti bent 3 įrašais.
+6. Lentelėje "klientai_teises" gali būti naudojami duomenys iš paskaitų. Lentelę taip pat papildyti bent 3 įrašais. +
 
-7. Lentelėje "vartotojai_teises" sukurti tokias teises:
+7. Lentelėje "vartotojai_teises" sukurti tokias teises: +
 
 ID pavadinimas aprasymas
 1  admin       administratorius
@@ -37,7 +37,7 @@ ID pavadinimas aprasymas
    c) Matyti, kada koks vartotojas buvo prisijungęs.
 
    "s_admin" gali:
-   a)Prisijungęs pridėti ir ištrinti vartotojus.
+   a) Prisijungęs pridėti ir ištrinti vartotojus.
    c) Pridėti, matyti, redaguoti, trinti klientus bei jų teises.
    d) Pridėti, matyti, redaguoti, trinti įmones bei jų tipus.
 

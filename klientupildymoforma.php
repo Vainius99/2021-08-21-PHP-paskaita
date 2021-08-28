@@ -28,6 +28,7 @@ require_once ("prijungimas.php");
     </style>
 
 <?php require_once("priedai.php"); ?>
+</nav>
 
 </head>
 <body>
@@ -39,14 +40,21 @@ if(!isset($_COOKIE["login"])) {
 ?>
     <div class="container">
         <?php require_once("priedai/menu.php"); ?>
+        </nav>
         <form action="klientupildymoforma.php" method="get">
             <div class="form-group">
                 <label for="vardas"> Vardas </label>
                 <input type="text" value="test" name="vardas"/>
                 <label for="pavarde"> Pavarde </label>
                 <input type="text" value="test" name="pavarde"/>
-                <label for="vardas"> Teises ID </label>
+                <label for="teises_id"> Teises ID </label>
                 <input type="text" value="5" name="teises_id"/>
+                <label for="imones_id"> Imones ID </label>
+                <!-- <input type="text" value="5" name="imones_id"/>
+                <label for="aprasymas"> Aprasymas </label>
+                <input type="text" value="5" name="aprasymas"/>
+                <label for="prisijungimo_data"> Prisijungimo data </label>
+                <input type="text" value="5" name="prisijungimo_data"/> -->
             </div>
             <button class="btn btn-success" type="submit" name="prideti">prideti nauja klienta</button>
             <a href="klientai.php">Back</a> 
@@ -115,7 +123,7 @@ if(isset($_GET["prideti"])) {
 <?php } ?>
 
 
-
+<!-- reikia dar padirbeti cia -->
 <?php mysqli_close($prisijungimas); ?>
     
 </body>

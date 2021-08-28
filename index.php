@@ -67,8 +67,9 @@ if(isset($_GET["submit"])) {
                 <label for="password">Password</label>
                 <input class="form-control" type="password" name="password" />
             </div>
-            <a href="index.php">Register here</a><br>
-            <button class="btn btn-primary" type="submit" name="submit">Log In</button>
+            <button class="btn btn-primary" type="submit" name="submit">Prisijungti</button>
+            <br>
+            <a href="registracija.php">Registracija</a>
         </form>
         <?php if(isset($message)) { ?>
     <div class="message alert alert-<?php echo $class; ?>" role="alert">
@@ -87,6 +88,7 @@ if(isset($_GET["submit"])) {
         header("Location: klientai.php");
     } ?>
 
-    
+    <!-- post metodas reikalingas|teisiu priskyrimas -->
+    <?php mysqli_close($prisijungimas); ?>
 </body>
 </html>

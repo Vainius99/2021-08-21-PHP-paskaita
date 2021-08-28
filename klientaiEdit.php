@@ -14,14 +14,6 @@
         h1 {
             text-align: center;
         }
-
-        /* .container {
-            position:absolute;
-            top:50%;
-            left:50%;
-            transform: translateY(-50%) translateX(-50%);
-        } */
-
         .hide {
             display:none;
         }
@@ -37,7 +29,7 @@ if(!isset($_COOKIE["login"])) {
 <?php
 if(isset($_GET["ID"])) {
     $id = $_GET["ID"];
-    $sql = "SELECT * FROM `klientai` WHERE `ID` = '$id'";
+    $sql = "SELECT * FROM `klientai` WHERE `ID` = $id";
     // $result = $prisijungimas->query($sql); 
     $result = mysqli_query($prisijungimas, $sql);
     // var_dump($result);
@@ -48,51 +40,34 @@ if(isset($_GET["ID"])) {
         $hideForm = false;
     } else {
         echo "ivyko kazkas blogai";
-        // header("clients.php");
-        //header("error.php");
-        //header("createClient.php");
-        //galime paslepti forma
         $hideForm = true;
     }
 
 }
 if(isset($_GET["submit"])) {
-    if(isset($_GET["vardas"]) && isset($_GET["pavarde"])  && !empty($_GET["vardas"]) && !empty($_GET["pavarde"])) {
+    if(isset($_GET["vardas"]) && isset($_GET["pavarde"]) && isset($_GET["teises_id"]) && isset($_GET["aprasymas"])  && !empty($_GET["vardas"]) && !empty($_GET["pavarde"]) && !empty($_GET["teises_id"]) && !empty($_GET["aprasymas"])) {
         $id = $_GET["ID"];
         $vardas = $_GET["vardas"];
         $pavarde = $_GET["pavarde"];
-        // $teises_id = intval($_GET["teises_id"]);
+        $teises_id = intval($_GET["teises_id"]);
+        $aprasymas = $_GET["aprasymas"];
 
-        $sql = "UPDATE `klientai` SET `vardas`='$vardas',`pavarde`='$pavarde' WHERE ID = $id";
+        $sql = "UPDATE `klientai` SET `vardas`='$vardas',`pavarde`='$pavarde',`teises_id`= $teises_id ,`aprasymas`= '$aprasymas'  WHERE ID = $id";
 
         if(mysqli_query($prisijungimas, $sql)) {
-            $message =  "Vartotojas redaguotas sėkmingai (Po 5 sekundziu grsite i klientu valdyma)";
+            $message =  "Vartotojas redaguotas sėkmingai (Po 5 sekundziu griste i klientu valdyma)";
             $class = "success";
-            $hideForm = true;
-               
-            
-                         
-            // header("Refresh:2; url=klientai.php");
+            $hideForm = true;           
+            // header("Refresh:5; url=klientai.php");
             echo '<meta http-equiv="refresh" content="5;url=klientai.php">';
 
         } else {
             $negerai =  "Kazkas ivyko negerai";
             $classN = "danger";
         }
-    // } else {
-    //     $id = $klientas["ID"];
-    //     $vardas = $klientas["vardas"];
-    //     $pavarde = $klientas["pavarde"];
-    //     // $teises_id = intval($client["teises_id"]);
-
-    //     $sql = "UPDATE `klientai` SET `vardas`='$vardas',`pavarde`='$pavarde' WHERE ID = $id";
-    //     if(mysqli_query($prisijungimas, $sql)) {
-    //         $message =  "Vartotojas redaguotas sėkmingai";
-    //         $class = "success";
-    //     } else {
-    //         $negerai =  "Kazkas ivyko negerai";
-    //         $classN = "danger";
-    //     }
+    } else {
+        $negerai =  "Kazkas ivyko negerai arba yra tusti langeliai";
+        $classN = "danger";
     }
 }
 ?>
@@ -112,7 +87,31 @@ if(isset($_GET["submit"])) {
                     <label for="pavarde">Pavardė</label>
                     <input class="form-control" type="text" name="pavarde" value="<?php echo $klientas["pavarde"] ?>"/>
                 </div>
-                
+                <div class="form-group">
+                    <label for="teises_id">Teisės</label>
+                    <select class="form-control" name="teises_id">
+                    <?php 
+                         $sql = "SELECT * FROM klientai_teises";
+                         $result = $prisijungimas->query($sql);
+                        
+                         while($clientRights = mysqli_fetch_array($result)) {
+
+                            if($klientas["teises_id"] == $clientRights["reiksme"] ) {
+                                echo "<option value='".$clientRights["reiksme"]."' selected='true'>";
+                            }  else {
+                                echo "<option value='".$clientRights["reiksme"]."'>";
+                            }  
+                                
+                                echo $clientRights["pavadinimas"];
+                            echo "</option>";
+                        }
+                        ?>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="aprasymas">Aprasymas</label>
+                    <input class="form-control" type="text" name="aprasymas" value="<?php echo $klientas["aprasymas"] ?>"/>
+                </div>
                 <button class="btn btn-primary" type="submit" name="submit">Edit</button>
                 <br>
                 <a href="klientai.php">Back</a> 
@@ -138,6 +137,7 @@ if(isset($_GET["submit"])) {
                
           
     </div>
-    
+   
+    <?php mysqli_close($prisijungimas); ?> 
 </body>
 </html>

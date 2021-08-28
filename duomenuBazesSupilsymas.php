@@ -13,6 +13,11 @@ require_once ("prijungimas.php");
     <title>Document</title>
 </head>
 <body>
+<?php
+if(!isset($_COOKIE["login"])) { 
+    header("Location: index.php");    
+}
+?>
 
 <form action="duomenuBazesSupilsymas.php" method="get">
     <button type="submit" name="sukurti">prideti 20 klientu</button>

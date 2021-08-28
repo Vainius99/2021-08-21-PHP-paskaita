@@ -26,8 +26,7 @@
         if(!isset($_COOKIE["login"])) { 
             header("Location: index.php");    
         } else {
-            echo "Sveikas prisijunges";
-            echo "<form action='klientai.php' method ='get'>";
+            echo "<form action='vartotojai.php' method ='get'>";
             echo "<button class='btn btn-primary' type='submit' name='logout'>Logout</button>";
             echo "</form>";
             if(isset($_GET["logout"])) {
@@ -38,33 +37,33 @@
         ?>
 
 <?php
-if(isset($_GET["trinti"])){
-    $id= $_GET["trinti"];
+// if(isset($_GET["trinti"])){
+//     $id= $_GET["trinti"];
     
-    $sql = ("DELETE FROM `klientai` WHERE `ID` = $id;");
-        if (mysqli_query($prisijungimas, $sql)){
-    $message = "Klientas sekmingai istrintas";
-    $class = "success";
-        } else 
-            $negerai = "Kazkas negerai";
-            $classN = "danger";
-}
+//     $sql = ("DELETE FROM `klientai` WHERE `ID` = $id;");
+//         if (mysqli_query($prisijungimas, $sql)){
+//     $message = "Klientas sekmingai istrintas";
+//     $class = "success";
+//         } else 
+//             $negerai = "Kazkas negerai";
+//             $classN = "danger";
+// }
 ?>  
 
     <div class="container">
         <?php require_once("priedai/menu.php"); ?>
     </div>
-    <form class="form-inline" action="klientai.php" method="get">
-    <input class="form-control mr-sm-2" type="search" name="search" placeholder="Klientu paieska" aria-label="Search">
+    <form class="form-inline" action="vartotojai.php" method="get">
+    <input class="form-control mr-sm-2" type="search" name="search" placeholder="Vartotoju paieska" aria-label="Search">
     <button class="btn btn-outline-success my-2 my-sm-0" type="submit" name="search_push">Search</button>
   </form>
   </nav>
 
     <?php if(isset($_GET["search"]) && !empty($_GET["search"])) { ?>
-    <a class="btn btn-primary" href="klientai.php"> Išvalyti paiešką</a>
+    <a class="btn btn-primary" href="vartotojai.php"> Išvalyti paiešką</a>
     <?php } ?>
 
-    <form action="klientai.php" method="get">
+    <form action="vartotojai.php" method="get">
         <div class="form-group">
             <select class="form-control" name="rikiavimas_id">
                 <option value="DESC"> Nuo didžiausio iki mažiausio</option>
@@ -80,9 +79,10 @@ if(isset($_GET["trinti"])){
       <th scope="col">ID</th>
       <th scope="col">Vardas</th>
       <th scope="col">Pavardė</th>
-      <th scope="col">Teisės</th>
-      <th scope="col">Aprasymas</th>
-      <th scope="col">Pridejimo data</th>
+      <th scope="col">Slapyvardis</th>
+      <th scope="col">Teises</th>
+      <th scope="col">Registracijos data</th>
+      <th scope="col">Paskutinis prisijungimas</th>
       <th scope="col">Veiksmai</th>
     </tr>
   </thead>
@@ -96,34 +96,38 @@ if(isset($_GET["rikiavimas_id"]) && !empty($_GET["rikiavimas_id"])) {
     $rikiavimas = "DESC";
 
 }
-$sql = "SELECT klientai.ID, klientai.vardas, klientai.pavarde, klientai_teises.pavadinimas, klientai.aprasymas, klientai.pridejimo_data FROM `klientai` 
-LEFT JOIN `klientai_teises` ON klientai.teises_id = klientai_teises.reiksme
+
+$sql = "SELECT vartotojai.ID, vartotojai.vardas, vartotojai.pavarde, vartotojai.username, vartotojai_teises.pavadinimas, vartotojai.registracijos_data, vartotojai.paskutinis_prisijungimas 
+FROM `vartotojai` 
+LEFT JOIN `vartotojai_teises` ON vartotojai.teises_id = vartotojai_teises.reiksme
 WHERE 1
-ORDER BY klientai.ID $rikiavimas";
+ORDER BY vartotojai.ID $rikiavimas";
 
 if(isset($_GET["search"]) && !empty($_GET["search"])) {
     $search = $_GET["search"];
-    $sql = "SELECT klientai.ID, klientai.vardas, klientai.pavarde, klientai_teises.pavadinimas, klientai.aprasymas, klientai.pridejimo_data FROM `klientai` 
-LEFT JOIN `klientai_teises` ON klientai.teises_id = klientai_teises.reiksme
-WHERE klientai_teises.pavadinimas LIKE '%".$search."%' OR klientai.pavarde LIKE '%$search%' OR klientai.vardas LIKE '%$search%'
-ORDER BY klientai.ID $rikiavimas";
+    $sql = "SELECT vartotojai.ID, vartotojai.vardas, vartotojai.pavarde, vartotojai.username, vartotojai_teises.pavadinimas, vartotojai.registracijos_data, vartotojai.paskutinis_prisijungimas 
+FROM `vartotojai` 
+LEFT JOIN `vartotojai_teises` ON vartotojai.teises_id = vartotojai_teises.reiksme
+WHERE vartotojai.vardas LIKE '%".$search."%' OR vartotojai.pavarde LIKE '%".$search."%' OR vartotojai.username LIKE '%".$search."%' OR vartotojai_teises.pavadinimas LIKE '%".$search."%'
+ORDER BY vartotojai.ID $rikiavimas";
 }
 
 $rezultatas = $prisijungimas->query($sql);
 
 
-while($klientai = mysqli_fetch_array($rezultatas)) {
+while($vartotojai = mysqli_fetch_array($rezultatas)) {
     echo "<tr>";
-        echo "<td>". $klientai["ID"]."</td>";
-        echo "<td>". $klientai["vardas"]."</td>";
-        echo "<td>". $klientai["pavarde"]."</td>";
-        echo "<td>". $klientai["pavadinimas"]."</td>";
-        echo "<td>". $klientai["aprasymas"]."</td>";
-        echo "<td>". $klientai["pridejimo_data"]."</td>";
+        echo "<td>". $vartotojai["ID"]."</td>";
+        echo "<td>". $vartotojai["vardas"]."</td>";
+        echo "<td>". $vartotojai["pavarde"]."</td>";
+        echo "<td>". $vartotojai["username"]."</td>";
+        echo "<td>". $vartotojai["pavadinimas"]."</td>";
+        echo "<td>". $vartotojai["registracijos_data"]."</td>";
+        echo "<td>". $vartotojai["paskutinis_prisijungimas"]."</td>";
         echo "<td>";
-        echo "<a href='klientaiEdit.php?ID=".$klientai["ID"]."'>Redaguoti</a>";
-        echo " ";
-        echo "<a class= 'red' href='klientai.php?trinti=".$klientai["ID"]."'>Trinti</a>";
+        // echo "<a href='klientaiEdit.php?ID=".$vartotojai["ID"]."'>Redaguoti</a>";
+        // echo " ";
+        echo "<a class= 'red' href='vartotojai.php?trinti=".$vartotojai["ID"]."'>Trinti</a>";
        echo "</td>";
     echo "</tr>";
 }
@@ -145,7 +149,7 @@ while($klientai = mysqli_fetch_array($rezultatas)) {
     </table>
 </div>
 
-<!-- imones_id atvaizdavimas -->
+<!-- trinti|redaguoti|pridejeti -->
 <?php mysqli_close($prisijungimas); ?>
     
 </body>

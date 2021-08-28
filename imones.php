@@ -54,6 +54,15 @@
     <div class="container">
         <?php require_once("priedai/menu.php"); ?>
     </div>
+    <form class="form-inline" action="imones.php" method="get">
+    <input class="form-control mr-sm-2" type="search" name="search" placeholder="Imoniu paieska" aria-label="Search">
+    <button class="btn btn-outline-success my-2 my-sm-0" type="submit" name="search_push">Search</button>
+  </form>
+  </nav>
+
+  <?php if(isset($_GET["search"]) && !empty($_GET["search"])) { ?>
+    <a class="btn btn-primary" href="imones.php"> Išvalyti paiešką</a>
+    <?php } ?>
 
     <form action="imones.php" method="get">
 
@@ -71,7 +80,7 @@
       <th scope="col">ID</th>
       <th scope="col">Pavadinimas</th>
       <th scope="col">Tipas</th>
-      <th scope="col">Aprasymas</th>
+      <!-- <th scope="col">Aprasymas</th> -->
       <th scope="col">Veiksmas</th>
 
     </tr>
@@ -86,13 +95,21 @@
         $rikiavimas = "DESC";
     }
 
-$sql = "SELECT * FROM `imones` ORDER BY `ID` $rikiavimas";
+$sql = "SELECT imones.ID, imones.pavadinimas, imones_tipas.aprasymas
+FROM `imones` 
+LEFT JOIN  `imones_tipas` ON imones.tipas_id = imones_tipas.ID
+WHERE 1
+ORDER BY imones.ID $rikiavimas";
 
 
-// if(isset($_GET["search"]) && !empty($_GET["search"])) {
-//     $search = $_GET["search"];
-//     $sql = "SELECT * FROM `klientai` WHERE `vardas` LIKE '%".$search."%' OR `pavarde` LIKE '%".$search."%' ORDER BY `ID` $rikiavimas";
-// }
+if(isset($_GET["search"]) && !empty($_GET["search"])) {
+    $search = $_GET["search"];
+    $sql ="SELECT imones.ID, imones.pavadinimas, imones_tipas.aprasymas
+    FROM `imones` 
+    LEFT JOIN  `imones_tipas` ON imones.tipas_id = imones_tipas.ID
+    WHERE imones.pavadinimas LIKE '%".$search."%'
+    ORDER BY imones.ID $rikiavimas";;
+}
 
 $rezultatas = $prisijungimas->query($sql);
 
@@ -101,8 +118,8 @@ while($imones = mysqli_fetch_array($rezultatas)) {
     echo "<tr>";
         echo "<td>". $imones["ID"]."</td>";
         echo "<td>". $imones["pavadinimas"]."</td>";
-        echo "<td>". $imones["tipas_id"]."</td>";
         echo "<td>". $imones["aprasymas"]."</td>";
+        // echo "<td>". $imones["aprasymas"]."</td>";
         echo "<td>";
         // echo "<a href='imonesEdit.php?ID=".$imones["ID"]."'>Redaguoti</a>";
         echo " ";
@@ -130,6 +147,7 @@ while($imones = mysqli_fetch_array($rezultatas)) {
     </table>
 </div>
 
+<!-- delete|edit|aprasymas -->
 <?php mysqli_close($prisijungimas); ?>
     
 </body>
