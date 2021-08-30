@@ -29,13 +29,13 @@ if(!isset($_COOKIE["login"])) {
 <?php
 if(isset($_GET["ID"])) {
     $id = $_GET["ID"];
-    $sql = "SELECT * FROM `klientai` WHERE `ID` = $id";
+    $sql = "SELECT * FROM `imones` WHERE `ID` = $id";
     // $result = $prisijungimas->query($sql); 
     $result = mysqli_query($prisijungimas, $sql);
     // var_dump($result);
 
     if($result->num_rows == 1) {
-        $klientas = mysqli_fetch_array($result);
+        $imones = mysqli_fetch_array($result);
     
         $hideForm = false;
     } else {
@@ -45,21 +45,20 @@ if(isset($_GET["ID"])) {
 
 }
 if(isset($_GET["submit"])) {
-    if(isset($_GET["vardas"]) && isset($_GET["pavarde"]) && isset($_GET["teises_id"]) && isset($_GET["aprasymas"])  && !empty($_GET["vardas"]) && !empty($_GET["pavarde"]) && !empty($_GET["teises_id"]) && !empty($_GET["aprasymas"])) {
+    if(isset($_GET["pavadinimas"]) && isset($_GET["tipas_id"]) && !empty($_GET["pavadinimas"]) && !empty($_GET["tipas_id"])) {
         $id = $_GET["ID"];
-        $vardas = $_GET["vardas"];
-        $pavarde = $_GET["pavarde"];
-        $teises_id = intval($_GET["teises_id"]);
+        $pavadinimas = $_GET["pavadinimas"];
+        $tipas_id = intval($_GET["tipas_id"]);
         $aprasymas = $_GET["aprasymas"];
 
-        $sql = "UPDATE `klientai` SET `vardas`='$vardas',`pavarde`='$pavarde',`teises_id`= $teises_id ,`aprasymas`= '$aprasymas'  WHERE ID = $id";
+        $sql = "UPDATE `imones` SET `pavadinimas`='$pavadinimas',`tipas_id`= $tipas_id ,`aprasymas`= '$aprasymas'  WHERE ID = $id";
 
         if(mysqli_query($prisijungimas, $sql)) {
-            $message =  "Vartotojas redaguotas sėkmingai (Po 5 sekundziu griste i klientu valdyma)";
+            $message =  "Imone redaguota sėkmingai (Po 5 sekundziu griste i klientu valdyma)";
             $class = "success";
             $hideForm = true;           
-            // header("Refresh:5; url=klientai.php");
-            echo '<meta http-equiv="refresh" content="5;url=klientai.php">';
+           
+            echo '<meta http-equiv="refresh" content="5;url=imones.php">';
 
         } else {
             $negerai =  "Kazkas ivyko negerai";
@@ -75,35 +74,30 @@ if(isset($_GET["submit"])) {
 <?php require_once("priedai/menu.php"); ?>
 </nav>
     <?php if($hideForm == false) { ?>
-            <h1>Vartotojo redagavimas</h1>
-            <form action="klientaiEdit.php" method="get">
+            <h1>Imones redagavimas</h1>
+            <form action="imonesEdit.php" method="get">
                 
-                <input class="hide" type="text" name="ID" value ="<?php echo $klientas["ID"] ?>" />
+                <input class="hide" type="text" name="ID" value ="<?php echo $imones["ID"] ?>" />
 
                 <div class="form-group">
-                    <label for="vardas">Vardas</label>
-                    <input class="form-control" type="text" name="vardas" value="<?php echo $klientas["vardas"] ?>" />
+                    <label for="pavadinimas">Pavadinimas</label>
+                    <input class="form-control" type="text" name="pavadinimas" value="<?php echo $imones["pavadinimas"] ?>" />
                 </div>
                 <div class="form-group">
-                    <label for="pavarde">Pavardė</label>
-                    <input class="form-control" type="text" name="pavarde" value="<?php echo $klientas["pavarde"] ?>"/>
-                </div>
-                <div class="form-group">
-                    <label for="teises_id">Teisės</label>
-                    <select class="form-control" name="teises_id">
+                    <label for="tipas_id">Tipas</label>
+                    <select class="form-control" name="tipas_id">
                     <?php 
-                         $sql = "SELECT * FROM klientai_teises";
+                         $sql = "SELECT * FROM `imones_tipas`";
                          $result = $prisijungimas->query($sql);
                         
-                         while($clientRights = mysqli_fetch_array($result)) {
+                         while($imonesTipas = mysqli_fetch_array($result)) {
 
-                            if($klientas["teises_id"] == $clientRights["reiksme"] ) {
-                                echo "<option value='".$clientRights["reiksme"]."' selected='true'>";
+                            if($imones["tipas_id"] == $imonesTipas["ID"] ) {
+                                echo "<option value='".$imonesTipas["ID"]."' selected='true'>";
                             }  else {
-                                echo "<option value='".$clientRights["reiksme"]."'>";
+                                echo "<option value='".$imonesTipas["ID"]."'>";
                             }  
-                                
-                                echo $clientRights["pavadinimas"];
+                                echo $imonesTipas["aprasymas"];
                             echo "</option>";
                         }
                         ?>
@@ -111,11 +105,11 @@ if(isset($_GET["submit"])) {
                 </div>
                 <div class="form-group">
                     <label for="aprasymas">Aprasymas</label>
-                    <input class="form-control" type="text" name="aprasymas" value="<?php echo $klientas["aprasymas"] ?>"/>
+                    <input class="form-control" type="text" name="aprasymas" value="<?php echo $imones["aprasymas"] ?>"/>
                 </div>
                 <button class="btn btn-primary" type="submit" name="submit">Edit</button>
                 <br>
-                <a href="klientai.php">Back</a> 
+                <a href="imones.php">Back</a> 
                
             </form>
 

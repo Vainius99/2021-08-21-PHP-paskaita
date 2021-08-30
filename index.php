@@ -35,6 +35,9 @@ if(isset($_GET["submit"])) {
                 $user_info["teises_id"],
 
             );
+            
+            // $sql = "UPDATE `vartotojai` SET `paskutinis_prisijungimas`= CURRENT_TIME WHERE `username`= '$username'"; NEVEIKIA!
+
 
         $cookie_array = implode("|", $cookie_array);
         setcookie("login", $cookie_array, time() + 3600, "/");

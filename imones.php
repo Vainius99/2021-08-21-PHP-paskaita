@@ -121,7 +121,7 @@ while($imones = mysqli_fetch_array($rezultatas)) {
         echo "<td>". $imones["aprasymas"]."</td>";
         // echo "<td>". $imones["aprasymas"]."</td>";
         echo "<td>";
-        // echo "<a href='imonesEdit.php?ID=".$imones["ID"]."'>Redaguoti</a>";
+        echo "<a href='imonesEdit.php?ID=".$imones["ID"]."'>Redaguoti</a>";
         echo " ";
         echo "<a class= 'red' href='imones.php?trinti=".$imones["ID"]."'>Trinti</a>";
        echo "</td>";
