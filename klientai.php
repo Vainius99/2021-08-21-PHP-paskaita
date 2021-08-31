@@ -8,18 +8,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 
-    <?php require_once("priedai.php"); ?>
-
     <style>
         .container {
             margin-bottom: 20px;
         }
-        
         .red {
             color: red;
         }
-     
+        form {
+        margin-top: 24px;
+    } 
         </style>
+        <?php require_once("priedai.php"); ?>
 </head>
 <body>
 <?php 
@@ -36,7 +36,6 @@
             }
         }    
         ?>
-
 <?php
 if(isset($_GET["trinti"])){
     $id= $_GET["trinti"];
@@ -65,7 +64,7 @@ if(isset($_GET["trinti"])){
     <?php } ?>
 
     <form action="klientai.php" method="get">
-        <div class="form-group">
+    <div class="form-group">
             <select class="form-control" name="rikiavimas_id">
                 <option value="DESC"> Nuo didžiausio iki mažiausio</option>
                 <option value="ASC"> Nuo mažiausio iki didžiausio</option>
@@ -119,6 +118,7 @@ while($klientai = mysqli_fetch_array($rezultatas)) {
         echo "<td>". $klientai["pavarde"]."</td>";
         echo "<td>". $klientai["pavadinimas"]."</td>";
         echo "<td>". $klientai["aprasymas"]."</td>";
+        // echo "<td>". $klientai["pavadinimas"]."</td>";
         echo "<td>". $klientai["pridejimo_data"]."</td>";
         echo "<td>";
         echo "<a href='klientaiEdit.php?ID=".$klientai["ID"]."'>Redaguoti</a>";
@@ -145,7 +145,7 @@ while($klientai = mysqli_fetch_array($rezultatas)) {
     </table>
 </div>
 
-<!-- imones_id atvaizdavimas -->
+<!-- puslapiavimas -->
 <?php mysqli_close($prisijungimas); ?>
     
 </body>

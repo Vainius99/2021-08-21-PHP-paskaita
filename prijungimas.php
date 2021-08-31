@@ -10,9 +10,8 @@ $prisijungimas = mysqli_connect($duomenu_bazes_serveris,$duomenu_bazes_slapyvard
 if ($prisijungimas == false) {
     die("nepavyko prisijungti prie duomenu bazes".mysqli_connect_error());
 }  else {
-        echo "prisijungta sekmingai";
-        echo "<br>";
-       
+        // echo "prisijungta sekmingai";
+        // echo "<br>";
     }
 
 ?>

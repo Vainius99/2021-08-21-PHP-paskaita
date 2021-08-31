@@ -14,42 +14,30 @@
         .container {
             margin-bottom: 20px;
         }
-        
+        form {
+        margin-top: 24px;
+    }
         .red {
             color: red;
         }
-     
         </style>
 </head>
 <body>
-<?php 
-        if(!isset($_COOKIE["login"])) { 
-            header("Location: index.php");    
-        } else {
-            echo "<form action='vartotojai.php' method ='get'>";
-            echo "<button class='btn btn-primary' type='submit' name='logout'>Logout</button>";
-            echo "</form>";
-            if(isset($_GET["logout"])) {
-                setcookie("login", "", time() - 3600, "/");
-                header("Location: index.php");
-            }
-        }    
-        ?>
+<?php require_once("prsijunges.php"); ?>
 
 <?php
-// if(isset($_GET["trinti"])){
-//     $id= $_GET["trinti"];
+if(isset($_GET["trinti"])){
+    $id= $_GET["trinti"];
     
-//     $sql = ("DELETE FROM `klientai` WHERE `ID` = $id;");
-//         if (mysqli_query($prisijungimas, $sql)){
-//     $message = "Klientas sekmingai istrintas";
-//     $class = "success";
-//         } else 
-//             $negerai = "Kazkas negerai";
-//             $classN = "danger";
-// }
+    $sql = ("DELETE FROM `vartotojai` WHERE `ID` = $id;");
+        if (mysqli_query($prisijungimas, $sql)){
+    $message = "Vartotojas sekmingai istrintas";
+    $class = "success";
+        } else 
+            $negerai = "Kazkas negerai";
+            $classN = "danger";
+}
 ?>  
-
     <div class="container">
         <?php require_once("priedai/menu.php"); ?>
     </div>
@@ -125,8 +113,8 @@ while($vartotojai = mysqli_fetch_array($rezultatas)) {
         echo "<td>". $vartotojai["registracijos_data"]."</td>";
         echo "<td>". $vartotojai["paskutinis_prisijungimas"]."</td>";
         echo "<td>";
-        // echo "<a href='klientaiEdit.php?ID=".$vartotojai["ID"]."'>Redaguoti</a>";
-        // echo " ";
+        echo "<a href='vartotojaiEdit.php?ID=".$vartotojai["ID"]."'>Redaguoti</a>";
+        echo " ";
         echo "<a class= 'red' href='vartotojai.php?trinti=".$vartotojai["ID"]."'>Trinti</a>";
        echo "</td>";
     echo "</tr>";
@@ -149,7 +137,7 @@ while($vartotojai = mysqli_fetch_array($rezultatas)) {
     </table>
 </div>
 
-<!-- trinti|redaguoti|pridejeti -->
+<!-- paskutinis prisijungimas -->
 <?php mysqli_close($prisijungimas); ?>
     
 </body>

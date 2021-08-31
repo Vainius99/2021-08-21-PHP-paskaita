@@ -11,6 +11,12 @@
     <?php require_once("priedai.php"); ?>
     
     <style>
+        .container {
+            margin-bottom: 20px;
+        }
+        form {
+        margin-top: 24px;
+    }
         h1 {
             text-align: center;
         }
@@ -21,11 +27,8 @@
 
 </head>
 <body>
-<?php
-if(!isset($_COOKIE["login"])) { 
-    header("Location: index.php");    
-}
-?>
+<?php require_once("prsijunges.php"); ?>
+
 <?php
 if(isset($_GET["ID"])) {
     $id = $_GET["ID"];
@@ -97,7 +100,7 @@ if(isset($_GET["submit"])) {
                             }  else {
                                 echo "<option value='".$imonesTipas["ID"]."'>";
                             }  
-                                echo $imonesTipas["aprasymas"];
+                                echo $imonesTipas["pavadinimas"];
                             echo "</option>";
                         }
                         ?>
@@ -107,7 +110,7 @@ if(isset($_GET["submit"])) {
                     <label for="aprasymas">Aprasymas</label>
                     <input class="form-control" type="text" name="aprasymas" value="<?php echo $imones["aprasymas"] ?>"/>
                 </div>
-                <button class="btn btn-primary" type="submit" name="submit">Edit</button>
+                <button class="btn btn-primary" type="submit" name="submit">Issaugoti</button>
                 <br>
                 <a href="imones.php">Back</a> 
                

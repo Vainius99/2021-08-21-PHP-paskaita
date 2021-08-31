@@ -11,21 +11,23 @@
     <?php require_once("priedai.php"); ?>
     
     <style>
+        .container {
+            margin-bottom: 24px;
+        }
         h1 {
             text-align: center;
         }
         .hide {
             display:none;
         }
+        form {
+        margin-top: 24px;
+    }
     </style>
 
 </head>
 <body>
-<?php
-if(!isset($_COOKIE["login"])) { 
-    header("Location: index.php");    
-}
-?>
+<?php require_once("prsijunges.php"); ?>
 <?php
 if(isset($_GET["ID"])) {
     $id = $_GET["ID"];
@@ -36,13 +38,11 @@ if(isset($_GET["ID"])) {
 
     if($result->num_rows == 1) {
         $klientas = mysqli_fetch_array($result);
-    
         $hideForm = false;
     } else {
         echo "ivyko kazkas blogai";
         $hideForm = true;
     }
-
 }
 if(isset($_GET["submit"])) {
     if(isset($_GET["vardas"]) && isset($_GET["pavarde"]) && isset($_GET["teises_id"]) && isset($_GET["aprasymas"])  && !empty($_GET["vardas"]) && !empty($_GET["pavarde"]) && !empty($_GET["teises_id"]) && !empty($_GET["aprasymas"])) {
@@ -55,7 +55,7 @@ if(isset($_GET["submit"])) {
         $sql = "UPDATE `klientai` SET `vardas`='$vardas',`pavarde`='$pavarde',`teises_id`= $teises_id ,`aprasymas`= '$aprasymas'  WHERE ID = $id";
 
         if(mysqli_query($prisijungimas, $sql)) {
-            $message =  "Vartotojas redaguotas sėkmingai (Po 5 sekundziu griste i klientu valdyma)";
+            $message =  "Klientas redaguotas sėkmingai (Po 5 sekundziu griste i Klientu valdyma)";
             $class = "success";
             $hideForm = true;           
             // header("Refresh:5; url=klientai.php");
@@ -75,7 +75,7 @@ if(isset($_GET["submit"])) {
 <?php require_once("priedai/menu.php"); ?>
 </nav>
     <?php if($hideForm == false) { ?>
-            <h1>Vartotojo redagavimas</h1>
+            <h1>Kliento redagavimas</h1>
             <form action="klientaiEdit.php" method="get">
                 
                 <input class="hide" type="text" name="ID" value ="<?php echo $klientas["ID"] ?>" />
@@ -101,8 +101,7 @@ if(isset($_GET["submit"])) {
                                 echo "<option value='".$clientRights["reiksme"]."' selected='true'>";
                             }  else {
                                 echo "<option value='".$clientRights["reiksme"]."'>";
-                            }  
-                                
+                            }   
                                 echo $clientRights["pavadinimas"];
                             echo "</option>";
                         }
@@ -113,14 +112,13 @@ if(isset($_GET["submit"])) {
                     <label for="aprasymas">Aprasymas</label>
                     <input class="form-control" type="text" name="aprasymas" value="<?php echo $klientas["aprasymas"] ?>"/>
                 </div>
-                <button class="btn btn-primary" type="submit" name="submit">Edit</button>
+                <button class="btn btn-primary" type="submit" name="submit">Issaugoti</button>
                 <br>
                 <a href="klientai.php">Back</a> 
                
             </form>
 
         <?php } else { ?>
-            
             
         <?php } ?>  
 
@@ -134,9 +132,6 @@ if(isset($_GET["submit"])) {
                      <?php echo $negerai; ?>
                     </div>
                 <?php } ?> 
-           
-               
-          
     </div>
    
     <?php mysqli_close($prisijungimas); ?> 

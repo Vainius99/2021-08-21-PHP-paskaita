@@ -24,7 +24,6 @@ if(isset($_GET["submit"])) {
 
         $result = $prisijungimas->query($sql);
         // var_dump($result);
-
         if($result->num_rows == 1) {
             $user_info = mysqli_fetch_array($result);
 
@@ -33,11 +32,9 @@ if(isset($_GET["submit"])) {
                 $user_info["username"],
                 $user_info["password"],
                 $user_info["teises_id"],
-
             );
             
-            // $sql = "UPDATE `vartotojai` SET `paskutinis_prisijungimas`= CURRENT_TIME WHERE `username`= '$username'"; NEVEIKIA!
-
+            // $sql = "UPDATE `vartotojai` SET `paskutinis_prisijungimas`= CURRENT_TIME WHERE `username`= '$username'"; NEVEIKIA laikas!
 
         $cookie_array = implode("|", $cookie_array);
         setcookie("login", $cookie_array, time() + 3600, "/");
@@ -45,16 +42,12 @@ if(isset($_GET["submit"])) {
         } else {
             $negerai = "Neteisingi prisijungimo duomenys";
             $classN = "danger";
-
         }
-
-       
     } else {
         $negerai = "Laukeliai yra tusti arba neteisingi duomenys";
         $classN = "danger";
     }
 }
-
 
 ?>
 
@@ -91,7 +84,8 @@ if(isset($_GET["submit"])) {
         header("Location: klientai.php");
     } ?>
 
-    <!-- post metodas reikalingas|teisiu priskyrimas -->
+    <!-- post metodas reikalingas|teisiu priskyrimas|laikas -->
+    <!-- bendrai: idomiu efektu viskam prikisti| papildomu funkciju pagalvoti -->
     <?php mysqli_close($prisijungimas); ?>
 </body>
 </html>
