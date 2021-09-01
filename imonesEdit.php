@@ -57,7 +57,7 @@ if(isset($_GET["submit"])) {
         $sql = "UPDATE `imones` SET `pavadinimas`='$pavadinimas',`tipas_id`= $tipas_id ,`aprasymas`= '$aprasymas'  WHERE ID = $id";
 
         if(mysqli_query($prisijungimas, $sql)) {
-            $message =  "Imone redaguota sėkmingai (Po 5 sekundziu griste i klientu valdyma)";
+            $message =  "Imone redaguota sėkmingai (Po 5 sekundziu griste i Imoniu valdyma)";
             $class = "success";
             $hideForm = true;           
            

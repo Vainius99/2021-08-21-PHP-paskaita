@@ -22,11 +22,12 @@
         <?php require_once("priedai.php"); ?>
 </head>
 <body>
+<div class="container">
+    <div class="row">
 <?php 
         if(!isset($_COOKIE["login"])) { 
             header("Location: index.php");    
         } else {
-            echo "Sveikas prisijunges";
             echo "<form action='klientai.php' method ='get'>";
             echo "<button class='btn btn-primary' type='submit' name='logout'>Logout</button>";
             echo "</form>";
@@ -36,6 +37,8 @@
             }
         }    
         ?>
+    </div>
+</div> 
 <?php
 if(isset($_GET["trinti"])){
     $id= $_GET["trinti"];
@@ -52,26 +55,59 @@ if(isset($_GET["trinti"])){
 
     <div class="container">
         <?php require_once("priedai/menu.php"); ?>
-    </div>
-    <form class="form-inline" action="klientai.php" method="get">
-    <input class="form-control mr-sm-2" type="search" name="search" placeholder="Klientu paieska" aria-label="Search">
-    <button class="btn btn-outline-success my-2 my-sm-0" type="submit" name="search_push">Search</button>
-  </form>
   </nav>
 
-    <?php if(isset($_GET["search"]) && !empty($_GET["search"])) { ?>
-    <a class="btn btn-primary" href="klientai.php"> Išvalyti paiešką</a>
-    <?php } ?>
+    
 
-    <form action="klientai.php" method="get">
-    <div class="form-group">
-            <select class="form-control" name="rikiavimas_id">
-                <option value="DESC"> Nuo didžiausio iki mažiausio</option>
-                <option value="ASC"> Nuo mažiausio iki didžiausio</option>
-            </select>
-            <button class="btn btn-primary" name="rikiuoti" type="submit">Rikiuoti</button>
+    <div class="row">
+        <div class="col-lg-4 col-md-3">
+            <form class="form-inline" action="klientai.php" method="get">
+            <input class="form-control mr-sm-2" type="search" name="search" placeholder="Klientu paieska" aria-label="Search">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit" name="search_push">Search</button>
+                <?php if(isset($_GET["search"]) && !empty($_GET["search"])) { ?>
+                <a class="btn btn-primary" href="klientai.php"> Išvalyti paiešką</a>
+                <?php } ?>
+            </form>
         </div>
-    </form>
+        <div class="col-lg-4 col-md-3">
+            <form action="klientai.php" method="get">
+            <select class="form-control" name="filtravimas">
+                <?php if(isset($_GET["filtravimas"]) && !empty($_GET["filtravimas"]) && $_GET["filtravimas"] != "default") {?>
+                    <option value="default">Rodyti visus</option>
+                <?php } else { ?>
+                    <option value="default" selected="true">Rodyti visus</option>
+                <?php } ?>
+                    <?php 
+                         $sql = "SELECT * FROM klientai_teises";
+                         $result = $prisijungimas->query($sql);
+                        
+                         while($clientRights = mysqli_fetch_array($result)) {
+                            if(isset($_GET["filtravimas"]) && $_GET["filtravimas"] == $clientRights["reiksme"] ) {  
+                                echo "<option value='".$clientRights["reiksme"]."' selected='true'>";
+                            } else { 
+                                echo "<option value='".$clientRights["reiksme"]."'>";
+                            }
+                                echo $clientRights["pavadinimas"];
+                            echo "</option>";
+                        }
+                        ?>
+                    </select>
+                    <button class="btn btn-primary" type="submit" name="filtruoti">Filtras</button>
+            </form>
+        </div>
+    
+        <div class="col-lg-4 col-md-3">
+            <form action="klientai.php" method="get">
+                <div class="form-group">
+                    <select class="form-control" name="rikiavimas_id">
+                        <option value="DESC"> Nuo didžiausio iki mažiausio</option>
+                        <option value="ASC"> Nuo mažiausio iki didžiausio</option>
+                    </select>
+                    <button class="btn btn-primary" name="rikiuoti" type="submit">Rikiavimas</button>
+                </div>
+            </form>
+        </div>    
+    </div>
 
     <table class="table table-striped">
   <thead>
@@ -88,16 +124,20 @@ if(isset($_GET["trinti"])){
   <tbody>
 
 <?php
+if(isset($_GET["filtravimas"]) && !empty($_GET["filtravimas"]) && $_GET["filtravimas"] != "default") {
+    $filtravimas = "klientai.teises_id = ".$_GET["filtravimas"];
+} else {
+    $filtravimas = 1;
+}
 
 if(isset($_GET["rikiavimas_id"]) && !empty($_GET["rikiavimas_id"])) {
     $rikiavimas = $_GET["rikiavimas_id"];
 } else {
     $rikiavimas = "DESC";
-
 }
 $sql = "SELECT klientai.ID, klientai.vardas, klientai.pavarde, klientai_teises.pavadinimas, klientai.aprasymas, klientai.pridejimo_data FROM `klientai` 
 LEFT JOIN `klientai_teises` ON klientai.teises_id = klientai_teises.reiksme
-WHERE 1
+WHERE $filtravimas
 ORDER BY klientai.ID $rikiavimas";
 
 if(isset($_GET["search"]) && !empty($_GET["search"])) {

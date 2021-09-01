@@ -21,7 +21,7 @@ ID pavadinimas aprasymas
 3  inspekt     inspektorius
 4  s_admin     sistemos administratorius
 
-8. "admin" gali:
+8. "admin" gali: 
    a)Prisijungęs matyti visus vartotojus, juos redaguoti, pridėti bei pašalinti.
    b) Įjungti/išjungti registracijos galimybę.
    c) Pridėti, matyti, redaguoti, trinti klientus bei jų teises.
@@ -44,5 +44,3 @@ ID pavadinimas aprasymas
 Papildomai: Sistemai pritaikyti prisegtą dizainą.
 
 Pastaba. Duomenų bazė gali būti pildoma/koreguojama pagal poreikį. -->
-
-

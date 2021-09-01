@@ -38,41 +38,74 @@
         ?>
     <div class="container">
         <?php require_once("priedai/menu.php"); ?>
-    </div>
-    <form class="form-inline" action="imones.php" method="get">
-    <input class="form-control mr-sm-2" type="search" name="search" placeholder="Imoniu paieska" aria-label="Search">
-    <button class="btn btn-outline-success my-2 my-sm-0" type="submit" name="search_push">Search</button>
-  </form>
-  </nav>
-
-  <?php if(isset($_GET["search"]) && !empty($_GET["search"])) { ?>
-    <a class="btn btn-primary" href="imones.php"> Išvalyti paiešką</a>
-    <?php } ?>
-
-    <form action="imones.php" method="get">
-
-        <div class="form-group">
-            <select class="form-control" name="rikiavimas_id">
-                <option value="DESC"> Nuo didžiausio iki mažiausio</option>
-                <option value="ASC"> Nuo mažiausio iki didžiausio</option>
-            </select>
-            <button class="btn btn-primary" name="rikiuoti" type="submit">Rikiuoti</button>
+        </nav>
+        <div class="row">
+            <div class="col-lg-4 col-md-3">
+                <form class="form-inline" action="imones.php" method="get">
+                    <input class="form-control mr-sm-2" type="search" name="search" placeholder="Imoniu paieska" aria-label="Search">
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit" name="search_push">Search</button>
+                        <?php if(isset($_GET["search"]) && !empty($_GET["search"])) { ?>
+                        <a class="btn btn-primary" href="imones.php"> Išvalyti paiešką</a>
+                        <?php } ?>
+                </form>
+            </div>
+            <div class="col-lg-4 col-md-3">
+            <form action="imones.php" method="get">
+            <select class="form-control" name="filtravimas">
+                <?php if(isset($_GET["filtravimas"]) && !empty($_GET["filtravimas"]) && $_GET["filtravimas"] != "default") {?>
+                    <option value="default">Rodyti visus</option>
+                <?php } else { ?>
+                    <option value="default" selected="true">Rodyti visus</option>
+                <?php } ?>
+                    <?php 
+                         $sql = "SELECT * FROM imones_tipas";
+                         $result = $prisijungimas->query($sql);
+                        
+                         while($imonesTipas = mysqli_fetch_array($result)) {
+                            if(isset($_GET["filtravimas"]) && $_GET["filtravimas"] == $imonesTipas["ID"] ) {  
+                                echo "<option value='".$imonesTipas["ID"]."' selected='true'>";
+                            } else { 
+                                echo "<option value='".$imonesTipas["ID"]."'>";
+                            }
+                                echo $imonesTipas["pavadinimas"];
+                            echo "</option>";
+                        }
+                        ?>
+                    </select>
+                    <button class="btn btn-primary" type="submit" name="filtruoti">Filtras</button>
+            </form>
         </div>
-    </form>    
+            <div class="col-lg-4 col-md-3">
+                <form action="imones.php" method="get">
+                    <div class="form-group">
+                        <select class="form-control" name="rikiavimas_id">
+                            <option value="DESC"> Nuo didžiausio iki mažiausio</option>
+                            <option value="ASC"> Nuo mažiausio iki didžiausio</option>
+                        </select>
+                        <button class="btn btn-primary" name="rikiuoti" type="submit">Rikiavimas</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Pavadinimas</th>
+                    <th scope="col">Tipas</th>
+                    <th scope="col">Aprasymas</th>
+                    <th scope="col">Veiksmas</th>
 
-    <table class="table table-striped">
-  <thead>
-    <tr>
-      <th scope="col">ID</th>
-      <th scope="col">Pavadinimas</th>
-      <th scope="col">Tipas</th>
-      <th scope="col">Aprasymas</th>
-      <th scope="col">Veiksmas</th>
-
-    </tr>
-  </thead>
-  <tbody>
+                </tr>
+            </thead>
+        <tbody>
 <?php
+
+    if(isset($_GET["filtravimas"]) && !empty($_GET["filtravimas"]) && $_GET["filtravimas"] != "default") {
+        $filtravimas = "imones.tipas_id = ".$_GET["filtravimas"];
+    } else {
+        $filtravimas = 1;
+    }
 
     if(isset($_GET["rikiavimas_id"]) && !empty($_GET["rikiavimas_id"])) {
         $rikiavimas = $_GET["rikiavimas_id"];
@@ -83,7 +116,7 @@
 $sql = "SELECT imones.ID, imones.pavadinimas AS pavadinimas1, imones_tipas.pavadinimas AS pavadinimas2, imones.aprasymas
 FROM `imones` 
 LEFT JOIN  `imones_tipas` ON imones.tipas_id = imones_tipas.ID
-WHERE 1
+WHERE $filtravimas
 ORDER BY imones.ID $rikiavimas";
 
 if(isset($_GET["search"]) && !empty($_GET["search"])) {
