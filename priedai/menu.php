@@ -3,17 +3,23 @@
   <a class= "nav-link " href="klientai.php">Kientu valdymas</a>
   </div>
   <br>
+  <?php if($varT[3] != 3 ) { ?>
   <div class="navbar-nav">
       <a class="nav-link" href="klientupildymoforma.php">Kientu pildymas <span class="sr-only">(current)</span></a>
   </div>
+  <?php } ?>
   <a class= "nav-link " href="imones.php">Imoniu valdymas</a>
+  <?php if($varT[3] != 3 ) { ?>
   <div class="navbar-nav">
       <a class="nav-link" href="imonespildymoforma.php">imoniu pildymas <span class="sr-only">(current)</span></a>
   </div>
+  <?php } ?>
+  <?php if ($varT[3] != 2) { ?>
   <a class= "nav-link " href="vartotojai.php">Vartotoju valdymas</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-    <!-- <span class="navbar-toggler-icon"></span> -->
-  </button>
+  <?php } ?>
+  <!-- <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button> -->
   <!-- <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
     <div class="navbar-nav">
       <a class="nav-link" href="klientupildymoforma.php">Kientu pildymas <span class="sr-only">(current)</span></a>

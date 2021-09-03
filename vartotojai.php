@@ -24,18 +24,20 @@
 </head>
 <body>
 <?php require_once("prsijunges.php"); ?>
-
+<?php if ($varT[3] != 2) { ?>
 <?php
-if(isset($_GET["trinti"])){
-    $id= $_GET["trinti"];
-    
-    $sql = ("DELETE FROM `vartotojai` WHERE `ID` = $id;");
-        if (mysqli_query($prisijungimas, $sql)){
-    $message = "Vartotojas sekmingai istrintas";
-    $class = "success";
-        } else 
-            $negerai = "Kazkas negerai";
-            $classN = "danger";
+if($varT[3] == 4 || $varT[3] == 1) {
+    if(isset($_GET["trinti"])){
+        $id= $_GET["trinti"];
+        
+        $sql = ("DELETE FROM `vartotojai` WHERE `ID` = $id;");
+            if (mysqli_query($prisijungimas, $sql)){
+        $message = "Vartotojas sekmingai istrintas";
+        $class = "success";
+            } else 
+                $negerai = "Kazkas negerai";
+                $classN = "danger";
+        }
 }
 ?>  
     <div class="container">
@@ -53,6 +55,16 @@ if(isset($_GET["trinti"])){
             </div>
             <div class="col-lg-4 col-md-3">
             <form action="vartotojai.php" method="get">
+
+            <select class="form-control" name="rikiavimas_id">
+            <?php if(isset($_GET["rikiavimas_id"]) && !empty($_GET["rikiavimas_id"]) && $_GET["rikiavimas_id"] != "default") {?>
+                    <option value="DESC"> Nuo didžiausio iki mažiausio</option>
+                    <option value="ASC" selected="true">> Nuo mažiausio iki didžiausio</option>
+                    <?php } else { ?>
+                    <option value="DESC" selected="true"> Nuo didžiausio iki mažiausio</option>
+                    <option value="ASC"> Nuo mažiausio iki didžiausio</option>
+                    <?php } ?>
+            </select>
             <select class="form-control" name="filtravimas">
                 <?php if(isset($_GET["filtravimas"]) && !empty($_GET["filtravimas"]) && $_GET["filtravimas"] != "default") {?>
                     <option value="default">Rodyti visus</option>
@@ -76,19 +88,8 @@ if(isset($_GET["trinti"])){
                     </select>
                     <button class="btn btn-primary" type="submit" name="filtruoti">Filtras</button>
             </form>
-        </div>
-            <div class="col-lg-4 col-md-3">  
-                <form action="vartotojai.php" method="get">
-                    <div class="form-group">
-                        <select class="form-control" name="rikiavimas_id">
-                            <option value="DESC"> Nuo didžiausio iki mažiausio</option>
-                            <option value="ASC"> Nuo mažiausio iki didžiausio</option>
-                        </select>
-                        <button class="btn btn-primary" name="rikiuoti" type="submit">Rikiavimas</button>
-                    </div>
-                </form>
-            </div>
-        </div>
+        </div>       
+    </div>
 
     <table class="table table-striped">
   <thead>
@@ -100,7 +101,9 @@ if(isset($_GET["trinti"])){
       <th scope="col">Teises</th>
       <th scope="col">Registracijos data</th>
       <th scope="col">Paskutinis prisijungimas</th>
-      <th scope="col">Veiksmai</th>
+     
+      <th scope="col"><?php if($varT[3] == 4 || $varT[3] == 1 ) { echo "Veiksmai"; } ?></th>
+      
     </tr>
   </thead>
   <tbody>
@@ -147,9 +150,13 @@ $rezultatas = $prisijungimas->query($sql);
             echo "<td>". $vartotojai["registracijos_data"]."</td>";
             echo "<td>". $vartotojai["paskutinis_prisijungimas"]."</td>";
             echo "<td>";
+         if($varT[3] == 1 ) {
             echo "<a href='vartotojaiEdit.php?ID=".$vartotojai["ID"]."'>Redaguoti</a>";
+         }
+            if($varT[3] == 4 || $varT[3] == 1 ) {
             echo " ";
             echo "<a class= 'red' href='vartotojai.php?trinti=".$vartotojai["ID"]."'>Trinti</a>";
+         }
         echo "</td>";  
         echo "</tr>";
     
@@ -171,7 +178,10 @@ $rezultatas = $prisijungimas->query($sql);
         </tbody>
     </table>
 </div>
-
+<?php } else { 
+        echo "Neturite tam teises"; 
+        echo "<br>";
+        echo "<a href='klientai.php'>Back</a>";} ?> 
 <!-- paskutinis prisijungimas -->
 <?php mysqli_close($prisijungimas); ?>
     

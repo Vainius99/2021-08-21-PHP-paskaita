@@ -10,6 +10,7 @@
 
     <?php require_once("priedai.php"); ?>
     
+    
     <style>
         .container {
             margin-bottom: 24px;
@@ -28,6 +29,7 @@
 </head>
 <body>
 <?php require_once("prsijunges.php"); ?>
+<?php if($varT[3] != 3) { ?>
 <?php
 if(isset($_GET["ID"])) {
     $id = $_GET["ID"];
@@ -134,6 +136,10 @@ if(isset($_GET["submit"])) {
                 <?php } ?> 
     </div>
    
+    <?php } else { 
+        echo "Neturite tam teises"; 
+        echo "<br>";
+        echo "<a href='klientai.php'>Back</a>"; } ?>    
     <?php mysqli_close($prisijungimas); ?> 
 </body>
 </html>

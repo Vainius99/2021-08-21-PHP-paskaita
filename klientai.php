@@ -24,22 +24,11 @@
 <body>
 <div class="container">
     <div class="row">
-<?php 
-        if(!isset($_COOKIE["login"])) { 
-            header("Location: index.php");    
-        } else {
-            echo "<form action='klientai.php' method ='get'>";
-            echo "<button class='btn btn-primary' type='submit' name='logout'>Logout</button>";
-            echo "</form>";
-            if(isset($_GET["logout"])) {
-                setcookie("login", "", time() - 3600, "/");
-                header("Location: index.php");
-            }
-        }    
-        ?>
+    <?php require_once("prsijunges.php"); ?>
     </div>
 </div> 
 <?php
+if($varT[3] != 3 ) {
 if(isset($_GET["trinti"])){
     $id= $_GET["trinti"];
     
@@ -50,6 +39,7 @@ if(isset($_GET["trinti"])){
         } else 
             $negerai = "Kazkas negerai";
             $classN = "danger";
+    }
 }
 ?>  
 
@@ -71,6 +61,23 @@ if(isset($_GET["trinti"])){
         </div>
         <div class="col-lg-4 col-md-3">
             <form action="klientai.php" method="get">
+            <select class="form-control" name="rikiavimas_id">
+                
+            <?php if(isset($_GET["rikiavimas_id"]) && !empty($_GET["rikiavimas_id"]) && $_GET["rikiavimas_id"] != "ASC") {?>
+                <option value="DESC"> Nuo didžiausio iki mažiausio</option>
+                <option value="ASC"selected="true"> Nuo mažiausio iki didžiausio</option>
+                <?php } else { ?>
+                <option value="DESC"selected="true"> Nuo didžiausio iki mažiausio</option>
+                <option value="ASC"> Nuo mažiausio iki didžiausio</option>
+                <?php } ?>
+
+
+<!-- naudoti duomenu baze -->
+
+
+
+            </select>    
+            
             <select class="form-control" name="filtravimas">
                 <?php if(isset($_GET["filtravimas"]) && !empty($_GET["filtravimas"]) && $_GET["filtravimas"] != "default") {?>
                     <option value="default">Rodyti visus</option>
@@ -91,22 +98,10 @@ if(isset($_GET["trinti"])){
                             echo "</option>";
                         }
                         ?>
-                    </select>
-                    <button class="btn btn-primary" type="submit" name="filtruoti">Filtras</button>
+                </select>
+                <button class="btn btn-primary" type="submit" name="submit">Filtras</button>
             </form>
-        </div>
-    
-        <div class="col-lg-4 col-md-3">
-            <form action="klientai.php" method="get">
-                <div class="form-group">
-                    <select class="form-control" name="rikiavimas_id">
-                        <option value="DESC"> Nuo didžiausio iki mažiausio</option>
-                        <option value="ASC"> Nuo mažiausio iki didžiausio</option>
-                    </select>
-                    <button class="btn btn-primary" name="rikiuoti" type="submit">Rikiavimas</button>
-                </div>
-            </form>
-        </div>    
+        </div>   
     </div>
 
     <table class="table table-striped">
@@ -118,12 +113,13 @@ if(isset($_GET["trinti"])){
       <th scope="col">Teisės</th>
       <th scope="col">Aprasymas</th>
       <th scope="col">Pridejimo data</th>
-      <th scope="col">Veiksmai</th>
+      <th scope="col"> <?php if($varT[3] != 3 ) { echo "Veiksmai"; } ?></th>
     </tr>
   </thead>
   <tbody>
 
 <?php
+
 if(isset($_GET["filtravimas"]) && !empty($_GET["filtravimas"]) && $_GET["filtravimas"] != "default") {
     $filtravimas = "klientai.teises_id = ".$_GET["filtravimas"];
 } else {
@@ -135,6 +131,7 @@ if(isset($_GET["rikiavimas_id"]) && !empty($_GET["rikiavimas_id"])) {
 } else {
     $rikiavimas = "DESC";
 }
+
 $sql = "SELECT klientai.ID, klientai.vardas, klientai.pavarde, klientai_teises.pavadinimas, klientai.aprasymas, klientai.pridejimo_data FROM `klientai` 
 LEFT JOIN `klientai_teises` ON klientai.teises_id = klientai_teises.reiksme
 WHERE $filtravimas
@@ -161,9 +158,11 @@ while($klientai = mysqli_fetch_array($rezultatas)) {
         // echo "<td>". $klientai["pavadinimas"]."</td>";
         echo "<td>". $klientai["pridejimo_data"]."</td>";
         echo "<td>";
+        if($varT[3] != 3 ) {
         echo "<a href='klientaiEdit.php?ID=".$klientai["ID"]."'>Redaguoti</a>";
         echo " ";
         echo "<a class= 'red' href='klientai.php?trinti=".$klientai["ID"]."'>Trinti</a>";
+        }
        echo "</td>";
     echo "</tr>";
 }

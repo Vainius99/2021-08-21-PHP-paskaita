@@ -13,5 +13,5 @@ if ($prisijungimas == false) {
         // echo "prisijungta sekmingai";
         // echo "<br>";
     }
-
+    mysqli_set_charset($prisijungimas,"utf8");
 ?>

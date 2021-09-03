@@ -51,6 +51,15 @@
             </div>
             <div class="col-lg-4 col-md-3">
             <form action="imones.php" method="get">
+            <select class="form-control" name="rikiavimas_id">
+            <?php if(isset($_GET["rikiavimas_id"]) && !empty($_GET["rikiavimas_id"]) && $_GET["rikiavimas_id"] != "ASC") {?>
+                    <option value="DESC" selected="true"> Nuo didžiausio iki mažiausio</option>
+                    <option value="ASC"> Nuo mažiausio iki didžiausio</option>
+                    <?php } else { ?>
+                    <option value="DESC"> Nuo didžiausio iki mažiausio</option>
+                    <option value="ASC" selected="true"> Nuo mažiausio iki didžiausio</option>
+                    <?php } ?>
+            </select>
             <select class="form-control" name="filtravimas">
                 <?php if(isset($_GET["filtravimas"]) && !empty($_GET["filtravimas"]) && $_GET["filtravimas"] != "default") {?>
                     <option value="default">Rodyti visus</option>
@@ -74,19 +83,8 @@
                     </select>
                     <button class="btn btn-primary" type="submit" name="filtruoti">Filtras</button>
             </form>
-        </div>
-            <div class="col-lg-4 col-md-3">
-                <form action="imones.php" method="get">
-                    <div class="form-group">
-                        <select class="form-control" name="rikiavimas_id">
-                            <option value="DESC"> Nuo didžiausio iki mažiausio</option>
-                            <option value="ASC"> Nuo mažiausio iki didžiausio</option>
-                        </select>
-                        <button class="btn btn-primary" name="rikiuoti" type="submit">Rikiavimas</button>
-                    </div>
-                </form>
-            </div>
-        </div>
+        </div>     
+    </div>
         <table class="table table-striped">
             <thead>
                 <tr>
@@ -94,7 +92,7 @@
                     <th scope="col">Pavadinimas</th>
                     <th scope="col">Tipas</th>
                     <th scope="col">Aprasymas</th>
-                    <th scope="col">Veiksmas</th>
+                    <th scope="col"><?php if($varT[3] != 3 ) { echo "Veiksmai"; } ?></th>
 
                 </tr>
             </thead>
@@ -137,9 +135,11 @@ while($imones = mysqli_fetch_array($rezultatas)) {
         echo "<td>". $imones["pavadinimas2"]."</td>";
         echo "<td>". $imones["aprasymas"]."</td>";
         echo "<td>";
+        if($varT[3] != 3 ) {
         echo "<a href='imonesEdit.php?ID=".$imones["ID"]."'>Redaguoti</a>";
         echo " ";
         echo "<a class= 'red' href='imones.php?trinti=".$imones["ID"]."'>Trinti</a>";
+        }
        echo "</td>";
     echo "</tr>";
 }

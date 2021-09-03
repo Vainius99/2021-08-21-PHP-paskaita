@@ -33,6 +33,7 @@ require_once ("prijungimas.php");
 </head>
 <body>
 <?php require_once("prsijunges.php"); ?>
+<?php if($varT[3] != 3 ) { ?>
 
     <div class="container">
         <?php require_once("priedai/menu.php"); ?>
@@ -126,6 +127,10 @@ if(isset($_GET["prideti"])) {
         <?php echo $negerai; ?>
     </div>
 <?php } ?>
+<?php } else { 
+        echo "Neturite tam teises";
+        echo "<br>";
+        echo "<a href='klientai.php'>Back</a>"; } ?>  
 
 
 <!-- laikas -->

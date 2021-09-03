@@ -26,6 +26,7 @@
 </head>
 <body>
 <?php require_once("prsijunges.php"); ?>
+<?php if($varT[3] != 3 ) { ?>
     <div class="container">
         <?php require_once("priedai/menu.php"); ?>
         </nav>
@@ -100,6 +101,10 @@ if(isset($_GET["prideti"])) {
         <?php echo $negerai; ?>
     </div>
 <?php } ?>
+<?php } else { 
+        echo "Neturite tam teises";
+        echo "<br>";
+        echo "<a href='imones.php'>Back</a>";  } ?> 
 
 <?php mysqli_close($prisijungimas); ?>
     

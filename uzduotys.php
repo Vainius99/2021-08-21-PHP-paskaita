@@ -23,23 +23,31 @@ ID pavadinimas aprasymas
 
 8. "admin" gali: 
    a)Prisijungęs matyti visus vartotojus, juos redaguoti, pridėti bei pašalinti.
-   b) Įjungti/išjungti registracijos galimybę.
+   b) Įjungti/išjungti registracijos galimybę.   <----- ? 
    c) Pridėti, matyti, redaguoti, trinti klientus bei jų teises.
    d) Pridėti, matyti, redaguoti, trinti įmones bei jų tipus.
+   
+($varT[3] == 1 )
 
    "vadyb" gali:
    a) Pridėti, matyti, redaguoti, trinti klientus bei jų teises.
    b) Pridėti, matyti, redaguoti, trinti įmones bei jų tipus.
+   
+($varT[3] == 2 )
 
    "inspek" gali:
    a) Tik matyti klientus bei jų teises.
    b) Tik matyti įmones bei jų tipus.
    c) Matyti, kada koks vartotojas buvo prisijungęs.
 
+($varT[3] == 3 )
+
    "s_admin" gali:
-   a) Prisijungęs pridėti ir ištrinti vartotojus.
+   a) Prisijungęs pridėti ir ištrinti vartotojus.  <-----(nezinau ka daryti su slaptazodziu) !!!!!!
    c) Pridėti, matyti, redaguoti, trinti klientus bei jų teises.
    d) Pridėti, matyti, redaguoti, trinti įmones bei jų tipus.
+
+($varT[3] == 4 )
 
 Papildomai: Sistemai pritaikyti prisegtą dizainą.
 
