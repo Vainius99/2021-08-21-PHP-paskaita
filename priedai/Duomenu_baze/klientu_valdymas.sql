@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Aug 30, 2021 at 06:02 PM
+-- Generation Time: Sep 04, 2021 at 12:58 PM
 -- Server version: 5.7.31
 -- PHP Version: 7.3.21
 
@@ -34,7 +34,7 @@ CREATE TABLE IF NOT EXISTS `imones` (
   `tipas_id` int(4) NOT NULL,
   `aprasymas` varchar(120) COLLATE utf8_lithuanian_ci NOT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=MyISAM AUTO_INCREMENT=11 DEFAULT CHARSET=utf8 COLLATE=utf8_lithuanian_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=12 DEFAULT CHARSET=utf8 COLLATE=utf8_lithuanian_ci;
 
 --
 -- Dumping data for table `imones`
@@ -50,7 +50,8 @@ INSERT INTO `imones` (`ID`, `pavadinimas`, `tipas_id`, `aprasymas`) VALUES
 (7, 'Antanas ir draugai', 2, 'Draudimo Paslaugos'),
 (8, 'Sviesa Tunelio Gale', 1, 'Laidojimo paslaugos'),
 (9, 'Galuniu Kramtytojai', 1, 'Naminiai Gyvunai'),
-(10, 'El Wagentosh', 3, 'Atomoniliai');
+(10, 'El Wagentosh', 3, 'Automobiliai'),
+(11, 'Penkta koja', 1, 'Ortopedija');
 
 -- --------------------------------------------------------
 
@@ -87,11 +88,11 @@ CREATE TABLE IF NOT EXISTS `klientai` (
   `vardas` varchar(120) COLLATE utf8_lithuanian_ci NOT NULL,
   `pavarde` varchar(120) COLLATE utf8_lithuanian_ci NOT NULL,
   `teises_id` int(4) NOT NULL,
-  `aprasymas` varchar(1000) COLLATE utf8_lithuanian_ci NOT NULL,
+  `aprasymas` text COLLATE utf8_lithuanian_ci NOT NULL,
   `imones_id` int(120) NOT NULL,
   `pridejimo_data` date NOT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=MyISAM AUTO_INCREMENT=63 DEFAULT CHARSET=utf8 COLLATE=utf8_lithuanian_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=70 DEFAULT CHARSET=utf8 COLLATE=utf8_lithuanian_ci;
 
 --
 -- Dumping data for table `klientai`
@@ -150,7 +151,33 @@ INSERT INTO `klientai` (`ID`, `vardas`, `pavarde`, `teises_id`, `aprasymas`, `im
 (53, 'vardas10', 'pavarde10', 5, 'nera', 2, '2021-08-27'),
 (54, 'vardas11', 'pavarde11', 3, 'nera', 8, '2021-08-27'),
 (55, 'vardas12', 'pavarde12', 5, 'nera', 4, '2021-08-27'),
-(56, 'vardas13', 'pavarde13', 2, 'nera', 5, '2021-08-27');
+(56, 'vardas13', 'pavarde13', 2, 'nera', 5, '2021-08-27'),
+(63, 'test12', 'test12', 1, 'test12', 1, '2021-08-31'),
+(64, 'test3', 'test3', 1, 'test3', 1, '2021-08-31'),
+(69, 'test', 'test', 1, '<p>xsxsx</p>', 1, '2021-09-04');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `klientai_rikiavimas`
+--
+
+DROP TABLE IF EXISTS `klientai_rikiavimas`;
+CREATE TABLE IF NOT EXISTS `klientai_rikiavimas` (
+  `ID` int(4) NOT NULL AUTO_INCREMENT,
+  `rikiavimo_pavadinimas` varchar(120) COLLATE utf8_lithuanian_ci NOT NULL,
+  `rikiavimo_stulpelis` varchar(120) COLLATE utf8_lithuanian_ci NOT NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_lithuanian_ci;
+
+--
+-- Dumping data for table `klientai_rikiavimas`
+--
+
+INSERT INTO `klientai_rikiavimas` (`ID`, `rikiavimo_pavadinimas`, `rikiavimo_stulpelis`) VALUES
+(1, 'Vardas', 'klientai.vardas'),
+(2, 'Pavarde', 'klientai.pavarde'),
+(3, 'Teises', 'klientai_teises.pavadinimas');
 
 -- --------------------------------------------------------
 
@@ -180,6 +207,26 @@ INSERT INTO `klientai_teises` (`ID`, `pavadinimas`, `reiksme`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `registracija`
+--
+
+DROP TABLE IF EXISTS `registracija`;
+CREATE TABLE IF NOT EXISTS `registracija` (
+  `ID` int(4) NOT NULL AUTO_INCREMENT,
+  `pasirinkimas` int(4) NOT NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_lithuanian_ci;
+
+--
+-- Dumping data for table `registracija`
+--
+
+INSERT INTO `registracija` (`ID`, `pasirinkimas`) VALUES
+(1, 1);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `vartotojai`
 --
 
@@ -192,7 +239,7 @@ CREATE TABLE IF NOT EXISTS `vartotojai` (
   `teises_id` int(4) NOT NULL,
   `password` varchar(120) COLLATE utf8_lithuanian_ci NOT NULL,
   `registracijos_data` date NOT NULL,
-  `paskutinis_prisijungimas` date NOT NULL,
+  `paskutinis_prisijungimas` datetime NOT NULL,
   PRIMARY KEY (`ID`)
 ) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COLLATE=utf8_lithuanian_ci;
 
@@ -201,11 +248,10 @@ CREATE TABLE IF NOT EXISTS `vartotojai` (
 --
 
 INSERT INTO `vartotojai` (`ID`, `vardas`, `pavarde`, `username`, `teises_id`, `password`, `registracijos_data`, `paskutinis_prisijungimas`) VALUES
-(1, 'vardas1', 'pavarde1', 'admin', 1, 'admin', '2021-08-27', '2021-08-30'),
-(2, 'vardas2', 'pavarde2', 'vadyb', 2, 'vadyb', '2021-08-27', '2021-08-30'),
-(3, 'vardas3', 'pavarde3', 'inspket', 3, 'inspekt', '2021-08-27', '2021-08-27'),
-(4, 'vardas4', 'pavarde4', 'admin_s', 4, 'admin_s', '2021-08-27', '2021-08-27'),
-(5, 'vardas', 'pavarde', 'username', 3, 'password', '2021-08-28', '2021-08-28');
+(1, 'vardas1', 'pavarde1', 'admin', 1, 'admin', '2021-08-27', '2021-09-04 15:52:06'),
+(2, 'vardas2', 'pavarde2', 'vadyb', 2, 'vadyb', '2021-08-27', '2021-08-30 00:00:00'),
+(3, 'vardas3', 'pavarde3', 'inspekt', 3, 'inspekt', '2021-08-27', '2021-08-27 00:00:00'),
+(4, 'vardas4', 'pavarde4', 'admin_s', 4, 'admin_s', '2021-08-27', '2021-08-27 00:00:00');
 
 -- --------------------------------------------------------
 
