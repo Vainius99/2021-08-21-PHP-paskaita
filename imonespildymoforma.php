@@ -102,7 +102,7 @@ if(isset($_GET["prideti"])) {
     </div>
 <?php } ?>
 <?php } else { 
-        echo "Neturite tam teises";
+        echo "Error 404";
         echo "<br>";
         echo "<a href='imones.php'>Back</a>";  } ?> 
 

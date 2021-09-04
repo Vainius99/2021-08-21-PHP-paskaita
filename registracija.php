@@ -32,11 +32,9 @@ if(isset($_POST["submit"])) {
             $message = "Registracija buvo sekminga (Po 5 sekundziu griste i klientu valdyma)";
             $class = "success";
             $hideForm = true; 
-
             $sql = "INSERT INTO `vartotojai`(`vardas`, `pavarde`, `username`, `teises_id`, `password`, `registracijos_data`, `paskutinis_prisijungimas`) 
             VALUES ('$vardas','$pavarde','$username',3 ,'$password',CURRENT_TIMESTAMP,CURRENT_TIMESTAMP)";
-
-        echo '<meta http-equiv="refresh" content="5;url=klientai.php">';
+            echo '<meta http-equiv="refresh" content="5;url=klientai.php">';
 
         } else if ($password != $rePassword) {
             $negerai = "Neatitinka slaptazodis";
@@ -47,10 +45,8 @@ if(isset($_POST["submit"])) {
             $negerai = "Toks slapyvardis jau egzistuoja";
             $classN = "danger";
             $hideForm = false;
-
         }
 }
-
 ?>
 
 <div class="container">
@@ -78,7 +74,7 @@ if(isset($_POST["submit"])) {
                 <input class="form-control" type="password" name="repeat_password" required="true" />
             </div>
 
-            <a href="index.php">Prisijungimas</a><br>
+            <a href="index.php">BACK</a><br>
             <button class="btn btn-primary" type="submit" name="submit">Registracija</button>
         </form>
         <?php } ?>

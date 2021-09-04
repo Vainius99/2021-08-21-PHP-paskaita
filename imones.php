@@ -24,17 +24,19 @@
 <body>
 <?php require_once("prsijunges.php"); ?>    
         <?php
-        // if(isset($_GET["trinti"])){
-        //     $id= $_GET["trinti"];
+    if($varT[3] != 3 ) {
+        if(isset($_GET["trinti"])){
+            $id= $_GET["trinti"];
             
-        //     $sql = ("DELETE FROM `imones` WHERE `ID` = $id;");
-        //         if (mysqli_query($prisijungimas, $sql)){
-        //     $message = "imone sekmingai istrinta";
-        //     $class = "success";
-        //         } else 
-        //             $negerai = "Kazkas negerai";
-        //             $classN = "danger";
-        // }
+            $sql = ("DELETE FROM `imones` WHERE `ID` = $id;");
+                if (mysqli_query($prisijungimas, $sql)){
+            $message = "imone sekmingai istrinta";
+            $class = "success";
+                } else 
+                    $negerai = "Kazkas negerai";
+                    $classN = "danger";
+        }
+    }
         ?>
     <div class="container">
         <?php require_once("priedai/menu.php"); ?>
@@ -161,7 +163,7 @@ while($imones = mysqli_fetch_array($rezultatas)) {
     </table>
 </div>
 
-<!-- delete ? -->
+
 <?php mysqli_close($prisijungimas); ?>
     
 </body>

@@ -137,7 +137,7 @@ if(isset($_GET["submit"])) {
           
     </div>
     <?php } else { 
-        echo "Neturite tam teises";
+        echo "Error 404";
         echo "<br>";
         echo "<a href='imones.php'>Back</a>";  } ?> 
    

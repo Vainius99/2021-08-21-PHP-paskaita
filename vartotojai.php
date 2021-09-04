@@ -11,6 +11,9 @@
     <?php require_once("priedai.php"); ?>
 
     <style>
+        .hide {
+            display:none;
+        }
         .container {
             margin-bottom: 20px;
         }
@@ -58,11 +61,11 @@ if($varT[3] == 4 || $varT[3] == 1) {
 
             <select class="form-control" name="rikiavimas_id">
             <?php if(isset($_GET["rikiavimas_id"]) && !empty($_GET["rikiavimas_id"]) && $_GET["rikiavimas_id"] != "default") {?>
-                    <option value="DESC"> Nuo didžiausio iki mažiausio</option>
-                    <option value="ASC" selected="true">> Nuo mažiausio iki didžiausio</option>
-                    <?php } else { ?>
                     <option value="DESC" selected="true"> Nuo didžiausio iki mažiausio</option>
                     <option value="ASC"> Nuo mažiausio iki didžiausio</option>
+                    <?php } else { ?>
+                    <option value="DESC"> Nuo didžiausio iki mažiausio</option>
+                    <option value="ASC" selected="true"> Nuo mažiausio iki didžiausio</option>
                     <?php } ?>
             </select>
             <select class="form-control" name="filtravimas">
@@ -87,8 +90,60 @@ if($varT[3] == 4 || $varT[3] == 1) {
                         ?>
                     </select>
                     <button class="btn btn-primary" type="submit" name="filtruoti">Filtras</button>
-            </form>
-        </div>       
+                </form>
+            </div>    
+        <div class="col-lg-4 col-md-3">
+        
+        <?php if ($varT[3] == 1) { ?>
+            
+            <div class="row">
+            <?php 
+            $sql = "SELECT * FROM `registracija` WHERE 1";
+            $registracija = mysqli_query($prisijungimas, $sql);    
+            $reg_info = mysqli_fetch_array($registracija); 
+                if($reg_info["pasirinkimas"] == 1 ) { ?>
+                    <form action="vartotojai.php" method="post">
+                        <input class="hide" type="text" name="ijungta" value ="2" />
+                        <button class="btn btn-primary" type="submit" name="on">Registracija Ijungta</button>
+                    </form>
+                    <?php  } else { ?>
+                    <form action="vartotojai.php" method="post">
+                        <input class="hide" type="text" name="isjungta" value ="1" />
+                    <button class="btn btn-danger" type="submit" name="off">Registracija Isjungta</button>
+                    </form>
+                    <?php } ?>
+            </div>    
+            
+            <?php
+            if (isset($_POST["on"])) {
+                    if(isset($_POST["ijungta"]) && !empty($_POST["ijungta"])) {
+                        $onoff = intval($_POST["ijungta"]);
+                        $sql = "UPDATE `registracija` SET `pasirinkimas`= $onoff WHERE `ID` = 1";
+                        if(mysqli_query($prisijungimas, $sql)) {
+                            echo '<meta http-equiv="refresh" content="0;url=vartotojai.php">';
+                        } else {
+                            $negerai =  "Kazkas ivyko negerai";
+                            $classN = "danger";
+                        }
+                    } else { echo "kazlas negerai";
+                }
+            } 
+            if (isset($_POST["off"])){
+                    if(isset($_POST["isjungta"]) && !empty($_POST["isjungta"])) { 
+                        $onofff = intval($_POST["isjungta"]);
+                        $sql = "UPDATE `registracija` SET `pasirinkimas`= $onofff WHERE `ID` = 1";
+                        if(mysqli_query($prisijungimas, $sql)) {
+                            echo '<meta http-equiv="refresh" content="0;url=vartotojai.php">';
+                        } else {
+                            $negerai =  "Kazkas ivyko negerai";
+                            $classN = "danger";
+                        }
+                    } else { echo "kazlas negerai";
+                }
+            }   
+        ?> 
+              
+        <?php } ?>  
     </div>
 
     <table class="table table-striped">
@@ -101,9 +156,7 @@ if($varT[3] == 4 || $varT[3] == 1) {
       <th scope="col">Teises</th>
       <th scope="col">Registracijos data</th>
       <th scope="col">Paskutinis prisijungimas</th>
-     
       <th scope="col"><?php if($varT[3] == 4 || $varT[3] == 1 ) { echo "Veiksmai"; } ?></th>
-      
     </tr>
   </thead>
   <tbody>
@@ -120,14 +173,14 @@ if(isset($_GET["rikiavimas_id"]) && !empty($_GET["rikiavimas_id"])) {
     $rikiavimas = $_GET["rikiavimas_id"];
 } else {
     $rikiavimas = "DESC";
-
 }
 
 $sql = "SELECT vartotojai.ID, vartotojai.vardas, vartotojai.pavarde, vartotojai.username, vartotojai_teises.pavadinimas, vartotojai.registracijos_data, vartotojai.paskutinis_prisijungimas 
 FROM `vartotojai` 
 LEFT JOIN `vartotojai_teises` ON vartotojai.teises_id = vartotojai_teises.reiksme
 WHERE $filtravimas
-ORDER BY vartotojai.ID $rikiavimas";
+ORDER BY vartotojai.ID $rikiavimas
+";
 
 if(isset($_GET["search"]) && !empty($_GET["search"])) {
     $search = $_GET["search"];
@@ -135,7 +188,8 @@ if(isset($_GET["search"]) && !empty($_GET["search"])) {
 FROM `vartotojai` 
 LEFT JOIN `vartotojai_teises` ON vartotojai.teises_id = vartotojai_teises.reiksme
 WHERE vartotojai.vardas LIKE '%".$search."%' OR vartotojai.pavarde LIKE '%".$search."%' OR vartotojai.username LIKE '%".$search."%' OR vartotojai_teises.pavadinimas LIKE '%".$search."%'
-ORDER BY vartotojai.ID $rikiavimas";
+ORDER BY vartotojai.ID $rikiavimas
+";
 }
 
 $rezultatas = $prisijungimas->query($sql);
@@ -159,9 +213,7 @@ $rezultatas = $prisijungimas->query($sql);
          }
         echo "</td>";  
         echo "</tr>";
-    
     }
-
 ?>
 
 <?php if(isset($message)) { ?>
@@ -179,10 +231,10 @@ $rezultatas = $prisijungimas->query($sql);
     </table>
 </div>
 <?php } else { 
-        echo "Neturite tam teises"; 
+        echo "Error 404"; 
         echo "<br>";
         echo "<a href='klientai.php'>Back</a>";} ?> 
-<!-- paskutinis prisijungimas -->
+
 <?php mysqli_close($prisijungimas); ?>
     
 </body>

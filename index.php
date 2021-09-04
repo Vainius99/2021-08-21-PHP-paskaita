@@ -15,10 +15,10 @@
 
 <?php 
 
-if(isset($_GET["submit"])) {
-    if(isset($_GET["username"]) && isset($_GET["password"]) && !empty($_GET["username"]) && !empty($_GET["password"])) {
-        $username = $_GET["username"];
-        $password = $_GET["password"];
+if(isset($_POST["submit"])) {
+    if(isset($_POST["username"]) && isset($_POST["password"]) && !empty($_POST["username"]) && !empty($_POST["password"])) {
+        $username = $_POST["username"];
+        $password = $_POST["password"];
 
         $sql = "SELECT * FROM `vartotojai` WHERE `username` = '$username' AND `password` = '$password'";
 
@@ -26,19 +26,24 @@ if(isset($_GET["submit"])) {
         // var_dump($result);
         if($result->num_rows == 1) {
             $user_info = mysqli_fetch_array($result);
-
             $cookie_array = array(
                 $user_info["ID"],
                 $user_info["username"],
                 $user_info["password"],
                 $user_info["teises_id"],
             );
+            $cookie_array = implode("|", $cookie_array);
+            setcookie("login", $cookie_array, time() + 3600, "/");
             
-            // $sql = "UPDATE `vartotojai` SET `paskutinis_prisijungimas`= CURRENT_TIME WHERE `username`= '$username'"; NEVEIKIA laikas!
+            // $now_date = date("Y-m-d");
 
-        $cookie_array = implode("|", $cookie_array);
-        setcookie("login", $cookie_array, time() + 3600, "/");
-        header("location: klientai.php");
+            $sql = "UPDATE `vartotojai` SET `paskutinis_prisijungimas`= CURRENT_TIMESTAMP WHERE `username`= '$username'"; 
+            if(mysqli_query($prisijungimas, $sql)) {
+                header("location: klientai.php");
+            } else {
+                $negerai = "Negerai ";
+                $classN = "danger";
+            }
         } else {
             $negerai = "Neteisingi prisijungimo duomenys";
             $classN = "danger";
@@ -54,7 +59,7 @@ if(isset($_GET["submit"])) {
 <?php if(!isset($_COOKIE["login"])) { ?>
 <div class="container">
         <h1>Klientų valdymo sistema</h1>
-        <form action="index.php" method="get">
+        <form action="index.php" method="post">
             <div class="form-group">
                 <label for="username">Username</label>
                 <input class="form-control" type="text" name="username" />
@@ -65,7 +70,13 @@ if(isset($_GET["submit"])) {
             </div>
             <button class="btn btn-primary" type="submit" name="submit">Prisijungti</button>
             <br>
+            <?php 
+            $sql = "SELECT * FROM `registracija` WHERE 1";
+            $registracija = mysqli_query($prisijungimas, $sql);    
+            $reg_info = mysqli_fetch_array($registracija); 
+            if($reg_info["pasirinkimas"] == 1 ) {  ?>
             <a href="registracija.php">Registracija</a>
+            <?php } ?>
         </form>
         <?php if(isset($message)) { ?>
     <div class="message alert alert-<?php echo $class; ?>" role="alert">
@@ -84,7 +95,7 @@ if(isset($_GET["submit"])) {
         header("Location: klientai.php");
     } ?>
 
-    <!-- post metodas reikalingas|teisiu priskyrimas|laikas -->
+   
     <!-- bendrai: idomiu efektu viskam prikisti| papildomu funkciju pagalvoti -->
     <?php mysqli_close($prisijungimas); ?>
 </body>

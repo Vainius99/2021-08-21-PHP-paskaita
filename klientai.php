@@ -64,11 +64,11 @@ if(isset($_GET["trinti"])){
             <select class="form-control" name="rikiavimas_id">
                 
             <?php if(isset($_GET["rikiavimas_id"]) && !empty($_GET["rikiavimas_id"]) && $_GET["rikiavimas_id"] != "ASC") {?>
-                <option value="DESC"> Nuo didžiausio iki mažiausio</option>
-                <option value="ASC"selected="true"> Nuo mažiausio iki didžiausio</option>
+                <option value="DESC" selected="true"> Nuo didžiausio iki mažiausio</option>
+                <option value="ASC" > Nuo mažiausio iki didžiausio</option>
                 <?php } else { ?>
-                <option value="DESC"selected="true"> Nuo didžiausio iki mažiausio</option>
-                <option value="ASC"> Nuo mažiausio iki didžiausio</option>
+                <option value="DESC"> Nuo didžiausio iki mažiausio</option>
+                <option value="ASC" selected="true"> Nuo mažiausio iki didžiausio</option>
                 <?php } ?>
 
 
@@ -100,6 +100,10 @@ if(isset($_GET["trinti"])){
                         ?>
                 </select>
                 <button class="btn btn-primary" type="submit" name="submit">Filtras</button>
+            
+            
+            
+            
             </form>
         </div>   
     </div>
@@ -119,6 +123,11 @@ if(isset($_GET["trinti"])){
   <tbody>
 
 <?php
+if(isset($_GET["psl_skaicius"])) {
+    $psl_skaicius = $_GET["psl_skaicius"] * 30 - 30;    
+} else {
+    $psl_skaicius = 0;    
+}
 
 if(isset($_GET["filtravimas"]) && !empty($_GET["filtravimas"]) && $_GET["filtravimas"] != "default") {
     $filtravimas = "klientai.teises_id = ".$_GET["filtravimas"];
@@ -135,14 +144,16 @@ if(isset($_GET["rikiavimas_id"]) && !empty($_GET["rikiavimas_id"])) {
 $sql = "SELECT klientai.ID, klientai.vardas, klientai.pavarde, klientai_teises.pavadinimas, klientai.aprasymas, klientai.pridejimo_data FROM `klientai` 
 LEFT JOIN `klientai_teises` ON klientai.teises_id = klientai_teises.reiksme
 WHERE $filtravimas
-ORDER BY klientai.ID $rikiavimas";
+ORDER BY klientai.ID $rikiavimas
+LIMIT $psl_skaicius , 30";
 
 if(isset($_GET["search"]) && !empty($_GET["search"])) {
     $search = $_GET["search"];
     $sql = "SELECT klientai.ID, klientai.vardas, klientai.pavarde, klientai_teises.pavadinimas, klientai.aprasymas, klientai.pridejimo_data FROM `klientai` 
 LEFT JOIN `klientai_teises` ON klientai.teises_id = klientai_teises.reiksme
 WHERE klientai_teises.pavadinimas LIKE '%".$search."%' OR klientai.pavarde LIKE '%$search%' OR klientai.vardas LIKE '%$search%'
-ORDER BY klientai.ID $rikiavimas";
+ORDER BY klientai.ID $rikiavimas
+LIMIT $psl_skaicius , 30";
 }
 
 $rezultatas = $prisijungimas->query($sql);
@@ -169,6 +180,35 @@ while($klientai = mysqli_fetch_array($rezultatas)) {
 
 ?>
 
+<?php 
+
+$sql = "SELECT CEILING(COUNT(ID)/30), COUNT(ID) FROM klientai";
+$result = $prisijungimas->query($sql);
+if($result->num_rows == 1) { 
+    $total_pages = mysqli_fetch_array($result);
+    for($i = 1; $i <= intval($total_pages[0]); $i++) {
+        echo "<a href='klientai.php?psl_skaicius=$i'>";
+        echo $i;
+        echo " ";
+    echo "</a>";
+    }
+    echo "<p>";
+            echo "Is viso puslapiu: ";
+            echo $total_pages[0];
+            echo "</p>";
+
+            echo "<p>";
+            echo "Is viso klientu: ";
+            echo $total_pages[1];
+            echo "</p>";
+        }
+        else {
+            echo "Nepavyko suskaiciuoti klientu";
+        }
+
+        // cia su jungti psl su filtru
+?>
+
 <?php if(isset($message)) { ?>
     <div class="message alert alert-<?php echo $class; ?>" role="alert">
         <?php echo $message; ?>
@@ -184,7 +224,7 @@ while($klientai = mysqli_fetch_array($rezultatas)) {
     </table>
 </div>
 
-<!-- puslapiavimas -->
+<!-- puslapiavimas apjungti su filtrais -->
 <?php mysqli_close($prisijungimas); ?>
     
 </body>

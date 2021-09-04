@@ -62,7 +62,6 @@ require_once ("prijungimas.php");
                             }  else {
                                 echo "<option value='".$clientRights["reiksme"]."'>";
                             }  
-                                
                                 echo $clientRights["pavadinimas"];
                             echo "</option>";
                         }
@@ -72,8 +71,10 @@ require_once ("prijungimas.php");
                 <!-- <label for="imones_id"> Imones ID </label> -->
                 <!-- <input type="text" value="5" name="imones_id"/> -->
             <div class="form-group">
-                <label for="aprasymas"> Aprasymas </label>
-                <input class="form-control" type="text" value="test" name="aprasymas"/>
+                <div class="col-lg-12">
+                        <label for="aprasymas">Aprasymas</label>
+                        <textarea class="form-control" type="text" id="aprasymas" name="aprasymas"></textarea>
+                </div>
             </div>
                 <!-- <label for="prisijungimo_data"> Prisijungimo data </label>
                 <input type="text" value="5" name="prisijungimo_data"/> -->
@@ -81,7 +82,6 @@ require_once ("prijungimas.php");
             <a href="klientai.php">Back</a> 
         </form>
     </div> 
-
 <?php
 
 if(isset($_GET["prideti"])) {
@@ -96,7 +96,6 @@ if(isset($_GET["prideti"])) {
             if (is_numeric($teises_id)) {
 
                 $sql = "INSERT INTO `klientai`(`vardas`, `pavarde`, `teises_id`, `aprasymas`, `imones_id`, `pridejimo_data` ) VALUES ('$vardas','$pavarde', $teises_id, '$aprasymas', 1, CURRENT_TIMESTAMP)";
-                // $klientas = "SELECT last_insert_id();";
 
                     if (mysqli_query($prisijungimas, $sql)){
                         
@@ -128,12 +127,23 @@ if(isset($_GET["prideti"])) {
     </div>
 <?php } ?>
 <?php } else { 
-        echo "Neturite tam teises";
+        echo "Error 404";
         echo "<br>";
-        echo "<a href='klientai.php'>Back</a>"; } ?>  
+        echo "<a href='klientai.php'>Back</a>"; } ?> 
+        
+        <script>
+            $(document).ready(function() {
+            $('#aprasymas').summernote({
+            height: 300,                 // set editor height
+            minHeight: null,             // set minimum height of editor
+                    maxHeight: null,             // set maximum height of editor
+                    focus: true                  // set focus to editable area after initializing summernote
+                });
+            });
+
+        </script>
 
 
-<!-- laikas -->
 <?php mysqli_close($prisijungimas); ?>
     
 </body>

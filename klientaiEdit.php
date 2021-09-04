@@ -10,7 +10,6 @@
 
     <?php require_once("priedai.php"); ?>
     
-    
     <style>
         .container {
             margin-bottom: 24px;
@@ -46,13 +45,13 @@ if(isset($_GET["ID"])) {
         $hideForm = true;
     }
 }
-if(isset($_GET["submit"])) {
-    if(isset($_GET["vardas"]) && isset($_GET["pavarde"]) && isset($_GET["teises_id"]) && isset($_GET["aprasymas"])  && !empty($_GET["vardas"]) && !empty($_GET["pavarde"]) && !empty($_GET["teises_id"]) && !empty($_GET["aprasymas"])) {
-        $id = $_GET["ID"];
-        $vardas = $_GET["vardas"];
-        $pavarde = $_GET["pavarde"];
-        $teises_id = intval($_GET["teises_id"]);
-        $aprasymas = $_GET["aprasymas"];
+if(isset($_POST["submit"])) {
+    if(isset($_POST["vardas"]) && isset($_POST["pavarde"]) && isset($_POST["teises_id"]) && isset($_POST["aprasymas"])  && !empty($_POST["vardas"]) && !empty($_POST["pavarde"]) && !empty($_POST["teises_id"]) && !empty($_POST["aprasymas"])) {
+        $id = $_POST["ID"];
+        $vardas = $_POST["vardas"];
+        $pavarde = $_POST["pavarde"];
+        $teises_id = intval($_POST["teises_id"]);
+        $aprasymas = $_POST["aprasymas"];
 
         $sql = "UPDATE `klientai` SET `vardas`='$vardas',`pavarde`='$pavarde',`teises_id`= $teises_id ,`aprasymas`= '$aprasymas'  WHERE ID = $id";
 
@@ -78,7 +77,7 @@ if(isset($_GET["submit"])) {
 </nav>
     <?php if($hideForm == false) { ?>
             <h1>Kliento redagavimas</h1>
-            <form action="klientaiEdit.php" method="get">
+            <form action="klientaiEdit.php" method="post">
                 
                 <input class="hide" type="text" name="ID" value ="<?php echo $klientas["ID"] ?>" />
 
@@ -111,8 +110,10 @@ if(isset($_GET["submit"])) {
                     </select>
                 </div>
                 <div class="form-group">
-                    <label for="aprasymas">Aprasymas</label>
-                    <input class="form-control" type="text" name="aprasymas" value="<?php echo $klientas["aprasymas"] ?>"/>
+                    <div class="col-lg-12">
+                        <label for="aprasymas">Aprasymas</label>
+                        <textarea class="form-control" type="text" id="aprasymas" name="aprasymas"><?php echo $klientas["aprasymas"]; ?></textarea>
+                    </div>
                 </div>
                 <button class="btn btn-primary" type="submit" name="submit">Issaugoti</button>
                 <br>
@@ -137,9 +138,21 @@ if(isset($_GET["submit"])) {
     </div>
    
     <?php } else { 
-        echo "Neturite tam teises"; 
+        echo "Error 404"; 
         echo "<br>";
-        echo "<a href='klientai.php'>Back</a>"; } ?>    
-    <?php mysqli_close($prisijungimas); ?> 
+        echo "<a href='klientai.php'>Back</a>"; } ?>  
+        
+        <script>
+            $(document).ready(function() {
+            $('#aprasymas').summernote({
+            height: 300,                 // set editor height
+            minHeight: null,             // set minimum height of editor
+                    maxHeight: null,             // set maximum height of editor
+                    focus: true                  // set focus to editable area after initializing summernote
+                });
+            });
+
+        </script>
+     
 </body>
 </html>
