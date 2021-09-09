@@ -10,8 +10,14 @@
 </head>
 <body>
 <?php
-if(isset($_COOKIE["login"])) { 
-    header("Location: index.php");    
+$sql = "SELECT * FROM `registracija` WHERE 1";
+$registracija = mysqli_query($prisijungimas, $sql);    
+$reg_info = mysqli_fetch_array($registracija); 
+if(isset($_COOKIE["login"]) && $reg_info["pasirinkimas"] != 1) { 
+    header("Location: index.php");
+} else if ($reg_info["pasirinkimas"] != 1) {
+    $hideForm = true;
+    echo "Registracija siuo metu negalima";
 } else {
     $hideForm = false;
 }
@@ -33,9 +39,16 @@ if(isset($_POST["submit"])) {
             $class = "success";
             $hideForm = true; 
             $sql = "INSERT INTO `vartotojai`(`vardas`, `pavarde`, `username`, `teises_id`, `password`, `registracijos_data`, `paskutinis_prisijungimas`) 
-            VALUES ('$vardas','$pavarde','$username',3 ,'$password',CURRENT_TIMESTAMP,CURRENT_TIMESTAMP)";
+            VALUES ('$vardas','$pavarde','$username',3 ,'$password',CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)";
             echo '<meta http-equiv="refresh" content="5;url=klientai.php">';
-
+                if(mysqli_query($prisijungimas, $sql)) {
+                    $message = "Registracija buvo sekminga (Po 5 sekundziu griste i klientu valdyma)";
+                    $class = "success";
+                    $hideForm = true;
+                    echo '<meta http-equiv="refresh" content="5;url=klientai.php">';
+                } else {
+                    echo 'Kazkas Negerai';
+                }
         } else if ($password != $rePassword) {
             $negerai = "Neatitinka slaptazodis";
             $classN = "danger";
@@ -48,7 +61,6 @@ if(isset($_POST["submit"])) {
         }
 }
 ?>
-
 <div class="container">
 <?php if($hideForm == false) { ?>
         <h1>Registracija</h1>

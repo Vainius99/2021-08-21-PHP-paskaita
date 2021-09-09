@@ -145,21 +145,24 @@ if($varT[3] == 4 || $varT[3] == 1) {
               
         <?php } ?>  
     </div>
+    <div id="alert-space">
 
-    <table class="table table-striped">
-  <thead>
-    <tr>
-      <th scope="col">ID</th>
-      <th scope="col">Vardas</th>
-      <th scope="col">Pavardė</th>
-      <th scope="col">Slapyvardis</th>
-      <th scope="col">Teises</th>
-      <th scope="col">Registracijos data</th>
-      <th scope="col">Paskutinis prisijungimas</th>
-      <th scope="col"><?php if($varT[3] == 4 || $varT[3] == 1 ) { echo "Veiksmai"; } ?></th>
-    </tr>
-  </thead>
-  <tbody>
+        </div>
+
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Vardas</th>
+                    <th scope="col">Pavardė</th>
+                    <th scope="col">Slapyvardis</th>
+                    <th scope="col">Teises</th>
+                    <th scope="col">Registracijos data</th>
+                    <th scope="col">Paskutinis prisijungimas</th>
+                    <th scope="col"><?php if($varT[3] == 4 || $varT[3] == 1 ) { echo "Veiksmai"; } ?></th>
+                    </tr>
+                </thead>
+                <tbody>
 
 <?php
 
@@ -191,6 +194,23 @@ WHERE vartotojai.vardas LIKE '%".$search."%' OR vartotojai.pavarde LIKE '%".$sea
 ORDER BY vartotojai.ID $rikiavimas
 ";
 }
+?>
+
+<button id="user_create">Create New User</button>
+        
+        <div class="userForm d-none">
+            <input  id="vardas" class="form-control" placeholder="Įveskite pavadinimą" />
+            <input id="pavarde" class="form-control" placeholder="Įveskite aprašymą" />
+            <input id="username" class="form-control" placeholder="Įveskita slapyvardi" />
+            <input id="teises_id" class="form-control" placeholder="Įveskita teises ID" />
+            <!-- <input id="Registracijos data" class="form-control" placeholder="Įveskita tipo ID" /> -->
+            <!-- <input id="Paskutinis prisijungimas" class="form-control" placeholder="Įveskita tipo ID" /> -->
+            
+            <button id="createUser">Create</button>
+        </div>
+        <div id="output">
+
+        <?php
 
 $rezultatas = $prisijungimas->query($sql);
 
@@ -227,15 +247,17 @@ $rezultatas = $prisijungimas->query($sql);
     </div>
     <?php } ?>
 
-        </tbody>
-    </table>
+            </tbody>
+        </table>
+    </div>
 </div>
 <?php } else { 
         echo "Error 404"; 
         echo "<br>";
         echo "<a href='klientai.php'>Back</a>";} ?> 
 
-<?php mysqli_close($prisijungimas); ?>
-    
+
+<script src="script.js"></script>  
+<!-- // neperduoda iskarto -->
 </body>
 </html>

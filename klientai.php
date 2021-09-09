@@ -42,13 +42,9 @@ if(isset($_GET["trinti"])){
     }
 }
 ?>  
-
     <div class="container">
         <?php require_once("priedai/menu.php"); ?>
   </nav>
-
-    
-
     <div class="row">
         <div class="col-lg-4 col-md-3">
             <form class="form-inline" action="klientai.php" method="get">
@@ -100,28 +96,22 @@ if(isset($_GET["trinti"])){
                         ?>
                 </select>
                 <button class="btn btn-primary" type="submit" name="submit">Filtras</button>
-            
-            
-            
-            
             </form>
         </div>   
     </div>
-
     <table class="table table-striped">
-  <thead>
-    <tr>
-      <th scope="col">ID</th>
-      <th scope="col">Vardas</th>
-      <th scope="col">Pavardė</th>
-      <th scope="col">Teisės</th>
-      <th scope="col">Aprasymas</th>
-      <th scope="col">Pridejimo data</th>
-      <th scope="col"> <?php if($varT[3] != 3 ) { echo "Veiksmai"; } ?></th>
-    </tr>
-  </thead>
-  <tbody>
-
+        <thead>
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Vardas</th>
+                <th scope="col">Pavardė</th>
+                <th scope="col">Teisės</th>
+                <th scope="col">Aprasymas</th>
+                <th scope="col">Pridejimo data</th>
+                <th scope="col"> <?php if($varT[3] != 3 ) { echo "Veiksmai"; } ?></th>
+            </tr>
+        </thead>
+    <tbody>
 <?php
 if(isset($_GET["psl_skaicius"])) {
     $psl_skaicius = $_GET["psl_skaicius"] * 30 - 30;    
@@ -145,7 +135,7 @@ $sql = "SELECT klientai.ID, klientai.vardas, klientai.pavarde, klientai_teises.p
 LEFT JOIN `klientai_teises` ON klientai.teises_id = klientai_teises.reiksme
 WHERE $filtravimas
 ORDER BY klientai.ID $rikiavimas
-LIMIT $psl_skaicius , 30";
+LIMIT $psl_skaicius , 10";
 
 if(isset($_GET["search"]) && !empty($_GET["search"])) {
     $search = $_GET["search"];
@@ -157,7 +147,6 @@ LIMIT $psl_skaicius , 30";
 }
 
 $rezultatas = $prisijungimas->query($sql);
-
 
 while($klientai = mysqli_fetch_array($rezultatas)) {
     echo "<tr>";
@@ -177,12 +166,10 @@ while($klientai = mysqli_fetch_array($rezultatas)) {
        echo "</td>";
     echo "</tr>";
 }
-
 ?>
 
 <?php 
-
-$sql = "SELECT CEILING(COUNT(ID)/30), COUNT(ID) FROM klientai";
+$sql = "SELECT CEILING(COUNT(ID)/10), COUNT(ID) FROM klientai";
 $result = $prisijungimas->query($sql);
 if($result->num_rows == 1) { 
     $total_pages = mysqli_fetch_array($result);
