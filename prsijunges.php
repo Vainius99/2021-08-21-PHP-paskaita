@@ -2,9 +2,9 @@
     <div class="row">
 <?php
 if(!isset($_COOKIE["login"])) { 
-    header("Location: index.php");    
+    header("Location: login.php");    
 } else {
-    echo "<form action='klientai.php' method ='get'>";
+    echo "<form action='index.php' method ='get'>";
     echo "<button class='btn btn-primary' type='submit' name='logout'>Logout</button>";
     echo "</form>";
     $varT = explode("|", $_COOKIE["login"]);

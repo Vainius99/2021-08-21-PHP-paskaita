@@ -1,25 +1,43 @@
 <?php require_once ("prijungimas.php"); ?>
+<?php if(!isset($_COOKIE["login"])) { 
+    header("Location: index.php");
+    } else {
+        $varT = explode("|", $_COOKIE["login"]);
+    }
+?>
 
 <?php 
 
 echo '<table class="table table-striped">';
-              
-                
-    // $sql = "SELECT imones.ID, imones.pavadinimas AS imones_pavadinimas, imones.aprasymas AS imones_aprasymas, imones_tipas.pavadinimas AS imones_tipas_pavadinimas, imones_tipas.aprasymas AS imones_tipas_aprasymas 
-    // FROM `imones` 
-    // LEFT JOIN imones_tipas ON imones.tipas_ID = imones_tipas.ID 
-    // WHERE 1 
-    // ORDER BY imones.ID DESC";
 
+                echo '<thead>';
+                echo '<tr>';
+                echo '<th scope="col">ID</th>';
+                echo '<th scope="col">Vardas</th>';
+                echo '<th scope="col">Pavardė</th>';
+                echo '<th scope="col">Slapyvardis</th>';
+                echo '<th scope="col">Teises</th>';
+                echo '<th scope="col">Registracijos data</th>';
+                echo '<th scope="col">Paskutinis prisijungimas</th>';
+                if($varT[3] == 4 || $varT[3] == 1 ) { 
+                    echo '<th scope="col">Veiksmai</th>'; 
+                }
+                echo  '</tr>';
+                echo '</thead>';
+              
 $sql = "SELECT vartotojai.ID, vartotojai.vardas, vartotojai.pavarde, vartotojai.username, vartotojai_teises.pavadinimas, vartotojai.registracijos_data, vartotojai.paskutinis_prisijungimas 
 FROM `vartotojai` 
 LEFT JOIN `vartotojai_teises` ON vartotojai.teises_id = vartotojai_teises.reiksme
 WHERE 1
-
+ORDER BY vartotojai.ID DESC
 ";
-
+// $sql = "SELECT vartotojai.ID, vartotojai.vardas, vartotojai.pavarde, vartotojai.username, vartotojai_teises.pavadinimas, vartotojai.registracijos_data, vartotojai.paskutinis_prisijungimas 
+// FROM `vartotojai` 
+// LEFT JOIN `vartotojai_teises` ON vartotojai.teises_id = vartotojai_teises.reiksme
+// WHERE 1
+// ORDER BY DESC";
+// $resultatas = mysqli_query($prisijungimas,$sql);
 $rezultatas = $prisijungimas->query($sql);
-
 while($vartotojai = mysqli_fetch_array($rezultatas)) {
     echo "<tr>";
         echo "<td>". $vartotojai["ID"]."</td>";
@@ -41,9 +59,10 @@ while($vartotojai = mysqli_fetch_array($rezultatas)) {
     echo "</tr>";
 }
 
+echo '</tbody>';
+echo '</table>';
 
 
-// neperduoda iskarto
                 
             
 

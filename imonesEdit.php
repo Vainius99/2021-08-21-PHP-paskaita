@@ -58,11 +58,11 @@ if(isset($_GET["submit"])) {
         $sql = "UPDATE `imones` SET `pavadinimas`='$pavadinimas',`tipas_id`= $tipas_id ,`aprasymas`= '$aprasymas'  WHERE ID = $id";
 
         if(mysqli_query($prisijungimas, $sql)) {
-            $message =  "Imone redaguota sėkmingai (Po 5 sekundziu griste i Imoniu valdyma)";
+            $message =  "Imone redaguota sėkmingai (Po 3 sekundziu griste i Imoniu valdyma)";
             $class = "success";
             $hideForm = true;           
            
-            echo '<meta http-equiv="refresh" content="5;url=imones.php">';
+            echo '<meta http-equiv="refresh" content="3;url=imones.php">';
 
         } else {
             $negerai =  "Kazkas ivyko negerai";

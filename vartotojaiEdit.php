@@ -57,11 +57,11 @@ if(isset($_GET["submit"])) {
         $sql = "UPDATE `vartotojai` SET `vardas`='$vardas',`pavarde`='$pavarde',`username`= '$username', `teises_id`= $teises_id WHERE ID = $id";
 
         if(mysqli_query($prisijungimas, $sql)) {
-            $message =  "Vartotojas redaguotas sėkmingai (Po 5 sekundziu griste i Vartotoju valdyma)";
+            $message =  "Vartotojas redaguotas sėkmingai (Po 3 sekundziu griste i Vartotoju valdyma)";
             $class = "success";
             $hideForm = true;           
             // header("Refresh:5; url=klientai.php");
-            echo '<meta http-equiv="refresh" content="5;url=vartotojai.php">';
+            echo '<meta http-equiv="refresh" content="3;url=vartotojai.php">';
 
         } else {
             $negerai =  "Kazkas ivyko negerai";

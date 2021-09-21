@@ -45,6 +45,7 @@ if($varT[3] == 4 || $varT[3] == 1) {
 ?>  
     <div class="container">
         <?php require_once("priedai/menu.php"); ?>
+        
         </nav>
         <div class="row">
             <div class="col-lg-4 col-md-3">
@@ -96,7 +97,7 @@ if($varT[3] == 4 || $varT[3] == 1) {
         
         <?php if ($varT[3] == 1) { ?>
             
-            <div class="row">
+            
             <?php 
             $sql = "SELECT * FROM `registracija` WHERE 1";
             $registracija = mysqli_query($prisijungimas, $sql);    
@@ -143,11 +144,33 @@ if($varT[3] == 4 || $varT[3] == 1) {
             }   
         ?> 
               
-        <?php } ?>  
-    </div>
-    <div id="alert-space">
-
+        <?php } ?> 
+    
+    
         </div>
+
+        <div id="alert-space"> </div>
+        <!-- alert sutvarkyti -->
+
+        <div class="container">
+        
+        <div class="row"></div>
+            <button id="user_create">Create New User</button>
+        
+            <div class="userForm d-none">
+                <input  id="vardas" class="form-control" placeholder="Įveskite varda" />
+                <input id="pavarde" class="form-control" placeholder="Įveskite pavarde" />
+                <input id="username" class="form-control" placeholder="Įveskita slapyvardi" />
+                <input id="teises_id" class="form-control" placeholder="Įveskita teises ID" />
+                <!-- <input id="Registracijos data" class="form-control" placeholder="Įveskita tipo ID" /> -->
+                <!-- <input id="Paskutinis prisijungimas" class="form-control" placeholder="Įveskita tipo ID" /> -->
+            
+                <button id="createUser">Create</button>
+            </div>
+        </div>
+
+
+        <div id="output">
 
             <table class="table table-striped">
                 <thead>
@@ -162,7 +185,8 @@ if($varT[3] == 4 || $varT[3] == 1) {
                     <th scope="col"><?php if($varT[3] == 4 || $varT[3] == 1 ) { echo "Veiksmai"; } ?></th>
                     </tr>
                 </thead>
-                <tbody>
+                
+      
 
 <?php
 
@@ -195,61 +219,38 @@ ORDER BY vartotojai.ID $rikiavimas
 ";
 }
 ?>
+            <tbody>
+                    <?php
 
-<button id="user_create">Create New User</button>
-        
-        <div class="userForm d-none">
-            <input  id="vardas" class="form-control" placeholder="Įveskite pavadinimą" />
-            <input id="pavarde" class="form-control" placeholder="Įveskite aprašymą" />
-            <input id="username" class="form-control" placeholder="Įveskita slapyvardi" />
-            <input id="teises_id" class="form-control" placeholder="Įveskita teises ID" />
-            <!-- <input id="Registracijos data" class="form-control" placeholder="Įveskita tipo ID" /> -->
-            <!-- <input id="Paskutinis prisijungimas" class="form-control" placeholder="Įveskita tipo ID" /> -->
-            
-            <button id="createUser">Create</button>
+                $rezultatas = $prisijungimas->query($sql);
+
+                    while($vartotojai = mysqli_fetch_array($rezultatas)) {
+                        echo "<tr>";
+                            echo "<td>". $vartotojai["ID"]."</td>";
+                            echo "<td>". $vartotojai["vardas"]."</td>";
+                            echo "<td>". $vartotojai["pavarde"]."</td>";
+                            echo "<td>". $vartotojai["username"]."</td>";
+                            echo "<td>". $vartotojai["pavadinimas"]."</td>";
+                            echo "<td>". $vartotojai["registracijos_data"]."</td>";
+                            echo "<td>". $vartotojai["paskutinis_prisijungimas"]."</td>";
+                            echo "<td>";
+                        if($varT[3] == 1 ) {
+                            echo "<a href='vartotojaiEdit.php?ID=".$vartotojai["ID"]."'>Redaguoti</a>";
+                        }
+                            if($varT[3] == 4 || $varT[3] == 1 ) {
+                            echo " ";
+                            echo "<a class= 'red' href='vartotojai.php?trinti=".$vartotojai["ID"]."'>Trinti</a>";
+                        }
+                        echo "</td>";  
+                        echo "</tr>";
+                    }
+                ?>
         </div>
-        <div id="output">
-
-        <?php
-
-$rezultatas = $prisijungimas->query($sql);
-
-    while($vartotojai = mysqli_fetch_array($rezultatas)) {
-        echo "<tr>";
-            echo "<td>". $vartotojai["ID"]."</td>";
-            echo "<td>". $vartotojai["vardas"]."</td>";
-            echo "<td>". $vartotojai["pavarde"]."</td>";
-            echo "<td>". $vartotojai["username"]."</td>";
-            echo "<td>". $vartotojai["pavadinimas"]."</td>";
-            echo "<td>". $vartotojai["registracijos_data"]."</td>";
-            echo "<td>". $vartotojai["paskutinis_prisijungimas"]."</td>";
-            echo "<td>";
-         if($varT[3] == 1 ) {
-            echo "<a href='vartotojaiEdit.php?ID=".$vartotojai["ID"]."'>Redaguoti</a>";
-         }
-            if($varT[3] == 4 || $varT[3] == 1 ) {
-            echo " ";
-            echo "<a class= 'red' href='vartotojai.php?trinti=".$vartotojai["ID"]."'>Trinti</a>";
-         }
-        echo "</td>";  
-        echo "</tr>";
-    }
-?>
-
-<?php if(isset($message)) { ?>
-    <div class="message alert alert-<?php echo $class; ?>" role="alert">
-        <?php echo $message; ?>
-    </div>
-    <?php } ?>
-    <?php if(isset($negerai)) { ?>
-    <div class="message alert alert-<?php echo $classN; ?>" role="alert">
-        <?php echo $negerai; ?>
-    </div>
-    <?php } ?>
 
             </tbody>
         </table>
     </div>
+</div>
 </div>
 <?php } else { 
         echo "Error 404"; 
@@ -258,6 +259,8 @@ $rezultatas = $prisijungimas->query($sql);
 
 
 <script src="script.js"></script>  
-<!-- // neperduoda iskarto -->
+
+
+  <!-- alert sutvarkyti -->
 </body>
 </html>

@@ -5,11 +5,11 @@ function showUsers() {
 
     xhttp.onreadystatechange = function() {
         if(this.readyState == 4 && this.status == 200) {
-            document.querySelector("#output").innerHTML = this.responseText; // 
+            document.querySelector("#output").innerHTML = this.responseText; 
         }
     };
 
-    xhttp.open("POST", "actionUsers.php", true);
+    xhttp.open("POST", "actionUsers.php", false);
     xhttp.send();
 }
 
@@ -32,14 +32,15 @@ document.querySelector("#createUser").addEventListener("click", function() {
 
     xhttp.onreadystatechange = function() {
         if(this.readyState == 4 && this.status == 200) {
-            document.querySelector("#alert-space").innerHTML = this.responseText; // 
+            document.querySelector("#alert-space").delay(2000).fadeOut(500).innerHTML = this.responseText;
+        
             
         }
     };
     
-    xhttp.open("GET", "addUser.php?vardas=" + vardas + "&pavarde=" + pavarde + "&username=" + username + "&teises_id=" + teises_id, true);
+    xhttp.open("GET", "addUser.php?vardas=" + vardas + "&pavarde=" + pavarde + "&username=" + username + "&teises_id=" + teises_id, false);
     xhttp.send();
     
-    showCompanies();
-    // neperduoda iskarto
+    showUsers();
+    
 });
