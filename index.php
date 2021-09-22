@@ -34,6 +34,7 @@ if(isset($_POST["submit"])) {
             );
             $cookie_array = implode("|", $cookie_array);
             setcookie("login", $cookie_array, time() + 3600, "/");
+            
 
             $sql = "UPDATE `vartotojai` SET `paskutinis_prisijungimas`= CURRENT_TIMESTAMP WHERE `username`= '$username'"; 
             if(mysqli_query($prisijungimas, $sql)) {
@@ -60,11 +61,11 @@ if(isset($_POST["submit"])) {
         <form action="index.php" method="post">
             <div class="form-group">
                 <label for="username">Username</label>
-                <input class="form-control" type="text" name="username" value="admin"/>
+                <input class="form-control" type="text" name="username" value=""/>
             </div>
             <div class="form-group">
                 <label for="password">Password</label>
-                <input class="form-control" type="password" name="password" value="admin" />
+                <input class="form-control" type="password" name="password" value="" />
             </div>
             <button class="btn btn-primary" type="submit" name="submit">Prisijungti</button>
             <br>
