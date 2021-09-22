@@ -31,12 +31,7 @@ LEFT JOIN `vartotojai_teises` ON vartotojai.teises_id = vartotojai_teises.reiksm
 WHERE 1
 ORDER BY vartotojai.ID DESC
 ";
-// $sql = "SELECT vartotojai.ID, vartotojai.vardas, vartotojai.pavarde, vartotojai.username, vartotojai_teises.pavadinimas, vartotojai.registracijos_data, vartotojai.paskutinis_prisijungimas 
-// FROM `vartotojai` 
-// LEFT JOIN `vartotojai_teises` ON vartotojai.teises_id = vartotojai_teises.reiksme
-// WHERE 1
-// ORDER BY DESC";
-// $resultatas = mysqli_query($prisijungimas,$sql);
+
 $rezultatas = $prisijungimas->query($sql);
 while($vartotojai = mysqli_fetch_array($rezultatas)) {
     echo "<tr>";
@@ -48,15 +43,15 @@ while($vartotojai = mysqli_fetch_array($rezultatas)) {
         echo "<td>". $vartotojai["registracijos_data"]."</td>";
         echo "<td>". $vartotojai["paskutinis_prisijungimas"]."</td>";
         echo "<td>";
-     if($varT[3] == 1 ) {
-        echo "<a href='vartotojaiEdit.php?ID=".$vartotojai["ID"]."'>Redaguoti</a>";
-     }
-        if($varT[3] == 4 || $varT[3] == 1 ) {
-        echo " ";
-        echo "<a class= 'red' href='vartotojai.php?trinti=".$vartotojai["ID"]."'>Trinti</a>";
-     }
-    echo "</td>";  
-    echo "</tr>";
+            if($varT[3] == 1 ) {
+                echo "<a href='vartotojaiEdit.php?ID=".$vartotojai["ID"]."'>Redaguoti</a>";
+            }
+                if($varT[3] == 4 || $varT[3] == 1 ) {
+                echo " ";
+                echo "<a class= 'red' href='vartotojai.php?trinti=".$vartotojai["ID"]."'>Trinti</a>";
+            }
+        echo "</td>";  
+        echo "</tr>";
 }
 
 echo '</tbody>';

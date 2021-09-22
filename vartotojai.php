@@ -146,13 +146,23 @@ if($varT[3] == 4 || $varT[3] == 1) {
               
         <?php } ?> 
     
-    
+       
+    </div>
+
+        <?php if(isset($message)) { ?>
+        <div class="message alert alert-<?php echo $class; ?>" role="alert">
+        <?php echo $message; ?>
         </div>
+        <?php } ?>
+        <?php if(isset($negerai)) { ?>
+        <div class="message alert alert-<?php echo $classN; ?>" role="alert">
+        <?php echo $negerai; ?>
+        </div>
+        <?php } ?>
 
-        <div id="alert-space"> </div>
-        <!-- alert sutvarkyti -->
+        
 
-        <div class="container">
+    <div class="container">
         
         <div class="row"></div>
             <button id="user_create">Create New User</button>
@@ -162,13 +172,12 @@ if($varT[3] == 4 || $varT[3] == 1) {
                 <input id="pavarde" class="form-control" placeholder="Įveskite pavarde" />
                 <input id="username" class="form-control" placeholder="Įveskita slapyvardi" />
                 <input id="teises_id" class="form-control" placeholder="Įveskita teises ID" />
-                <!-- <input id="Registracijos data" class="form-control" placeholder="Įveskita tipo ID" /> -->
-                <!-- <input id="Paskutinis prisijungimas" class="form-control" placeholder="Įveskita tipo ID" /> -->
-            
                 <button id="createUser">Create</button>
             </div>
         </div>
 
+        <div id="alert-space"> </div>
+        <!-- neisnyksta -->
 
         <div id="output">
 

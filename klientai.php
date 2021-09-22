@@ -113,8 +113,10 @@ if(isset($_GET["trinti"])){
         </thead>
     <tbody>
 <?php
+
+$client_count = 10;
 if(isset($_GET["psl_skaicius"])) {
-    $psl_skaicius = $_GET["psl_skaicius"] * 30 - 30;    
+    $psl_skaicius = $_GET["psl_skaicius"] * $client_count - $client_count;    
 } else {
     $psl_skaicius = 0;    
 }
@@ -174,6 +176,7 @@ $result = $prisijungimas->query($sql);
 if($result->num_rows == 1) { 
     $total_pages = mysqli_fetch_array($result);
     for($i = 1; $i <= intval($total_pages[0]); $i++) {
+
         echo "<a href='klientai.php?psl_skaicius=$i'>";
         echo $i;
         echo " ";

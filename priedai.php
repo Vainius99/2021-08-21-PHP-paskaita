@@ -13,5 +13,5 @@ echo '
 <script src="js/main.js"></script> 
 ';
 
-// prideti dalyku su js.
+
 ?>

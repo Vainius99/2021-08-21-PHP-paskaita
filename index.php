@@ -34,8 +34,6 @@ if(isset($_POST["submit"])) {
             );
             $cookie_array = implode("|", $cookie_array);
             setcookie("login", $cookie_array, time() + 3600, "/");
-            
-            // $now_date = date("Y-m-d");
 
             $sql = "UPDATE `vartotojai` SET `paskutinis_prisijungimas`= CURRENT_TIMESTAMP WHERE `username`= '$username'"; 
             if(mysqli_query($prisijungimas, $sql)) {
@@ -96,7 +94,7 @@ if(isset($_POST["submit"])) {
     } ?>
 
 </div>  
-    <!-- bendrai: idomiu efektu viskam prikisti| papildomu funkciju pagalvoti -->
+    <!-- laikas taisyklingai patvarkyti | klientai.php | vartotojai.php -->
     <?php mysqli_close($prisijungimas); ?>
 </body>
 </html>

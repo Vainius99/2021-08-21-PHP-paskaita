@@ -23,9 +23,10 @@ require_once ("prijungimas.php");
     }
     .message {
         text-align: center;
+        position: absolute;
+        bottom: 20rem;
     }
          
-
     </style>
 
 <?php require_once("priedai.php"); ?>
@@ -68,16 +69,13 @@ require_once ("prijungimas.php");
                         ?>
                     </select>
             </div>
-                <!-- <label for="imones_id"> Imones ID </label> -->
-                <!-- <input type="text" value="5" name="imones_id"/> -->
+                
             <div class="form-group">
                 <div class="col-lg-12">
                         <label for="aprasymas">Aprasymas</label>
                         <textarea class="form-control" type="text" id="aprasymas" name="aprasymas"></textarea>
                 </div>
             </div>
-                <!-- <label for="prisijungimo_data"> Prisijungimo data </label>
-                <input type="text" value="5" name="prisijungimo_data"/> -->
             <button class="btn btn-success" type="submit" name="prideti">prideti nauja klienta</button>
             <a href="klientai.php">Back</a> 
         </form>
@@ -114,18 +112,21 @@ if(isset($_GET["prideti"])) {
             $negerai = "Langeliai tusti arba kazkas negerai";
             $classN= "danger";
 }  
-
 ?>
-<?php if(isset($message)) { ?>
-    <div class="message alert alert-<?php echo $class; ?>" role="alert">
+<div class="container">
+        <?php if(isset($message)) { ?>
+        <div class="message alert alert-<?php echo $class; ?>" role="alert">
         <?php echo $message; ?>
-    </div>
-<?php } ?>
-<?php if(isset($negerai)) { ?>
-    <div class="message alert alert-<?php echo $classN; ?>" role="alert">
+        </div>
+        <?php } ?>
+        <?php if(isset($negerai)) { ?>
+        <div class="message alert alert-<?php echo $classN; ?>" role="alert">
         <?php echo $negerai; ?>
-    </div>
-<?php } ?>
+        </div>
+        <?php } ?>
+</div>
+        
+
 <?php } else { 
         echo "Error 404";
         echo "<br>";
@@ -145,6 +146,7 @@ if(isset($_GET["prideti"])) {
 
 
 <?php mysqli_close($prisijungimas); ?>
+
     
 </body>
 </html>

@@ -95,7 +95,6 @@
                     <th scope="col">Tipas</th>
                     <th scope="col">Aprasymas</th>
                     <th scope="col"><?php if($varT[3] != 3 ) { echo "Veiksmai"; } ?></th>
-
                 </tr>
             </thead>
         <tbody>

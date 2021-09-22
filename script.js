@@ -32,7 +32,7 @@ document.querySelector("#createUser").addEventListener("click", function() {
 
     xhttp.onreadystatechange = function() {
         if(this.readyState == 4 && this.status == 200) {
-            document.querySelector("#alert-space").delay(2000).fadeOut(500).innerHTML = this.responseText;
+            document.querySelector("#alert-space").innerHTML = this.responseText;
         
             
         }
