@@ -135,6 +135,7 @@ if($varT[3] == 4 || $varT[3] == 1) {
                         $sql = "UPDATE `registracija` SET `pasirinkimas`= $onofff WHERE `ID` = 1";
                         if(mysqli_query($prisijungimas, $sql)) {
                             echo '<meta http-equiv="refresh" content="0;url=vartotojai.php">';
+                            // header("Location: vartotojai.php");
                         } else {
                             $negerai =  "Kazkas ivyko negerai";
                             $classN = "danger";
@@ -171,7 +172,7 @@ if($varT[3] == 4 || $varT[3] == 1) {
                 <input  id="vardas" class="form-control" placeholder="Įveskite varda" />
                 <input id="pavarde" class="form-control" placeholder="Įveskite pavarde" />
                 <input id="username" class="form-control" placeholder="Įveskita slapyvardi" />
-                <input id="teises_id" class="form-control" placeholder="Įveskita teises ID" />
+                <input id="password" class="form-control" placeholder="Įveskita slaptazodi" />
                 <button id="createUser">Create</button>
             </div>
         </div>
@@ -269,7 +270,5 @@ ORDER BY vartotojai.ID $rikiavimas
 
 <script src="script.js"></script>  
 
-
-  <!-- alert sutvarkyti -->
 </body>
 </html>

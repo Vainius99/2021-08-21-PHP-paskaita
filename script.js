@@ -9,7 +9,7 @@ function showUsers() {
         }
     };
 
-    xhttp.open("POST", "actionUsers.php", false);
+    xhttp.open("POST", "actionUsers.php", true);
     xhttp.send();
 }
 
@@ -26,7 +26,7 @@ document.querySelector("#createUser").addEventListener("click", function() {
     var vardas = document.querySelector("#vardas").value;
     var pavarde = document.querySelector("#pavarde").value;
     var username = document.querySelector("#username").value;
-    var teises_id = document.querySelector("#teises_id").value;
+    var password = document.querySelector("#password").value;
 
     var xhttp = new XMLHttpRequest(); 
 
@@ -38,7 +38,7 @@ document.querySelector("#createUser").addEventListener("click", function() {
         }
     };
     
-    xhttp.open("GET", "addUser.php?vardas=" + vardas + "&pavarde=" + pavarde + "&username=" + username + "&teises_id=" + teises_id, false);
+    xhttp.open("GET", "addUser.php?vardas=" + vardas + "&pavarde=" + pavarde + "&username=" + username + "&password=" + password, true);
     xhttp.send();
     
     showUsers();

@@ -68,7 +68,7 @@ if(isset($_GET["trinti"])){
                 <?php } ?>
 
 
-<!-- naudoti duomenu baze -->
+<!-- naudoti duomenu baze kiekvienam stulpeliui filtruoti-->
 
 
 
@@ -145,7 +145,7 @@ if(isset($_GET["search"]) && !empty($_GET["search"])) {
 LEFT JOIN `klientai_teises` ON klientai.teises_id = klientai_teises.reiksme
 WHERE klientai_teises.pavadinimas LIKE '%".$search."%' OR klientai.pavarde LIKE '%$search%' OR klientai.vardas LIKE '%$search%'
 ORDER BY klientai.ID $rikiavimas
-LIMIT $psl_skaicius , 30";
+LIMIT $psl_skaicius , 10";
 }
 
 $rezultatas = $prisijungimas->query($sql);
@@ -170,34 +170,35 @@ while($klientai = mysqli_fetch_array($rezultatas)) {
 }
 ?>
 
-<?php 
-$sql = "SELECT CEILING(COUNT(ID)/10), COUNT(ID) FROM klientai";
-$result = $prisijungimas->query($sql);
-if($result->num_rows == 1) { 
-    $total_pages = mysqli_fetch_array($result);
-    for($i = 1; $i <= intval($total_pages[0]); $i++) {
+<?php
+        
+        $sql = "SELECT CEILING(COUNT(ID)/10), COUNT(ID) FROM klientai WHERE $filtravimas ORDER BY klientai.ID $rikiavimas";
+         $result = $prisijungimas->query($sql);
+            if($result->num_rows == 1) { 
+                $total_pages = mysqli_fetch_array($result);
+                for($i = 1; $i <= intval($total_pages[0]); $i++) {
 
-        echo "<a href='klientai.php?psl_skaicius=$i'>";
-        echo $i;
-        echo " ";
-    echo "</a>";
-    }
-    echo "<p>";
-            echo "Is viso puslapiu: ";
-            echo $total_pages[0];
-            echo "</p>";
-
-            echo "<p>";
-            echo "Is viso klientu: ";
-            echo $total_pages[1];
-            echo "</p>";
-        }
-        else {
-            echo "Nepavyko suskaiciuoti klientu";
-        }
+                    echo "<a href='klientai.php?psl_skaicius=$i'>";
+                    echo $i;
+                    echo " ";
+                    echo "</a>";
+                    }
+                    echo "<p>";
+                            echo "Is viso puslapiu: ";
+                            echo $total_pages[0];
+                            echo "</p>";
+                            echo "<p>";
+                            echo "Is viso klientu: ";
+                            echo $total_pages[1];
+                    echo "</p>";
+                            }
+                            else {
+                                echo "Nepavyko suskaiciuoti klientu";
+                            }
 
         // cia su jungti psl su filtru
 ?>
+
 
 <?php if(isset($message)) { ?>
     <div class="message alert alert-<?php echo $class; ?>" role="alert">
